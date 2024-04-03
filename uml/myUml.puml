@@ -1,0 +1,152 @@
+@startuml
+abstract class AbstractFlyingObject {
+    - locationX : int
+    - locationY : int
+    - speedX : int
+    - speedY : int
+    - image : BufferedImage
+    - width : int = -1
+    - height : int = -1
+    - isValid : boolean = true
+
+    + AbstractFlyingObject()
+    + AbstractFlyingObject(locationX: int, locationY: int, speedX: int, speedY: int)
+    + forward() : void
+    + crash(flyingObject : AbstractFlyingObject) : boolean
+    + getLocationX() : int
+    + getLocationY() : int
+    + setLocation(locationX : double, locationY : double) : void
+    + getSpeedY() : int
+    + getImage() : BufferedImage
+    + getWidth() : int
+    + getHeight() : int
+    + notValid() : boolean
+    + vanish() : void
+}
+
+abstract class AbstractAircraft extends AbstractFlyingObject {
+    - maxHp : int
+    - hp : int
+
+    + AbstractAircraft(locationX: int, locationY: int, speedX: int, speedY: int, hp: int)
+    + decreaseHp(decrease : int) : void
+    + getHp() : int
+    {abstract} + shoot() : List<BaseBullet>
+}
+
+class EnemyAircraft extends AbstractAircraft {
+    - shootNum : int = 1
+    - power : int = 10
+    - direction : int = 1
+    - score : int
+
+    + EnemyAircraft(locationX: int, locationY: int, speedX: int, speedY: int, hp: int, _score: int)
+    + shoot() : List<BaseBullet>
+    + getScore() : int
+    + forward() : void
+}
+
+class HeroAircraft extends AbstractAircraft {
+    - shootNum : int = 1
+    - power : int = 30
+    - direction : int = -1
+
+    + HeroAircraft(locationX: int, locationY: int, speedX: int, speedY: int, hp: int)
+    + shoot() : List<BaseBullet>
+    + addHp(level : int) : void
+    + addShootNum(level : int) : void
+    + effect(p : BaseProp) : void
+    + forward() : void
+}
+
+class EliteAircraft extends EnemyAircraft {
+    + EliteAircraft(locationX: int, locationY: int, speedX: int, speedY: int, hp: int, score: int)
+    + shoot() : List<BaseBullet>
+}
+
+class BossAircraft extends EnemyAircraft {
+    + BossAircraft(locationX: int, locationY: int, speedX: int, speedY: int, hp: int, score: int)
+}
+
+class MobAircraft extends EnemyAircraft {
+    + MobAircraft(locationX: int, locationY: int, speedX: int, speedY: int, hp: int, score: int)
+    + forward() : void
+    + shoot() : List<BaseBullet>
+}
+
+abstract class BaseBullet extends AbstractFlyingObject {
+    - power : int = 10
+
+    + BaseBullet(locationX: int, locationY: int, speedX: int, speedY: int, power: int)
+    + forward() : void
+    + getPower() : int
+}
+
+class EnemyBullet extends BaseBullet {
+    + EnemyBullet(locationX: int, locationY: int, speedX: int, speedY: int, power: int)
+}
+
+class HeroBullet extends BaseBullet {
+    + HeroBullet(locationX: int, locationY: int, speedX: int, speedY: int, power: int)
+}
+
+abstract class BaseProp extends AbstractFlyingObject {
+    - score : int
+    - dura : int
+    - level : int
+
+    + BaseProp(locationX: int, locationY: int, speedX: int, speedY: int, score: int, dura: int, level: int)
+    {abstract} + effect(h : HeroAircraft) : void
+    + getScore() : int
+    + getLevel() : int
+    + forward() : void
+}
+
+class BloodProp extends BaseProp {
+    + BloodProp(locationX: int, locationY: int, speedX: int, speedY: int, score: int, dura: int, power: int)
+    + effect(h : HeroAircraft) : void
+}
+
+class BombProp extends BaseProp {
+    + BombProp(locationX: int, locationY: int, speedX: int, speedY: int, score: int, dura: int, power: int)
+    + effect(h : HeroAircraft) : void
+}
+
+class BulletProp extends BaseProp {
+    + BulletProp(locationX: int, locationY: int, speedX: int, speedY: int, score: int, dura: int, power: int)
+    + effect(h : HeroAircraft) : void
+}
+
+interface IEnemyAircraftFactory {
+    + createEnemyAircraft(locationX: int, locationY: int, speedX: int, speedY: int, hp: int, score: int) : EnemyAircraft
+}
+
+class BossEnemyFactory implements IEnemyAircraftFactory {
+    + createEnemyAircraft(locationX: int, locationY: int, speedX: int, speedY: int, hp: int, score: int) : EnemyAircraft
+}
+
+class EliteEnemyFactory implements IEnemyAircraftFactory {
+    + createEnemyAircraft(locationX: int, locationY: int, speedX: int, speedY: int, hp: int, score: int) : EnemyAircraft
+}
+
+class MobEnemyFactory implements IEnemyAircraftFactory {
+    + createEnemyAircraft(locationX: int, locationY: int, speedX: int, speedY: int, hp: int, score: int) : EnemyAircraft
+}
+
+interface IPropFactory {
+    + createProp(locationX: int, locationY: int, speedX: int, speedY: int, score: int, dura: int, level: int) : BaseProp
+}
+
+class BloodPropFactory implements IPropFactory {
+    + createProp(locationX: int, locationY: int, speedX: int, speedY: int, score: int, dura: int, power: int) : BaseProp
+}
+
+class BombPropFactory implements IPropFactory {
+    + createProp(locationX: int, locationY: int, speedX: int, speedY: int, score: int, dura: int, power: int) : BaseProp
+}
+
+class BulletPropFactory implements IPropFactory {
+    + createProp(locationX: int, locationY: int, speedX: int, speedY: int, score: int, dura: int, power: int) : BaseProp
+}
+
+@enduml
