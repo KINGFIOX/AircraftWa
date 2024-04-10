@@ -5,6 +5,8 @@ out/*
 # db dir
 ranklist_db
 
+report
+
 # MacOS file
 .DS*
 

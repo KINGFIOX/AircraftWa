@@ -1,11 +1,10 @@
 package edu.hitsz.aircraft;
 
+import edu.hitsz.application.ImageManager;
+import edu.hitsz.application.Main;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.bullet.HeroBullet;
 import edu.hitsz.prop.BaseProp;
-import edu.hitsz.prop.BloodProp;
-import edu.hitsz.prop.BombProp;
-import edu.hitsz.prop.BulletProp;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,7 +32,6 @@ public class HeroAircraft extends AbstractAircraft {
      * 子弹射击方向 (向上发射：1，向下发射：-1)
      */
     private int direction = -1;
-
 
     @Override
     /**
@@ -77,6 +75,12 @@ public class HeroAircraft extends AbstractAircraft {
         p.effect(this);
     }
 
+    @Override
+    public void forward() {
+        // 英雄机由鼠标控制，不通过forward函数移动
+    }
+
+    /* ---------- ---------- 单例模式 ---------- ---------- */
 
     /**
      * @param locationX 英雄机位置x坐标
@@ -85,13 +89,30 @@ public class HeroAircraft extends AbstractAircraft {
      * @param speedY    英雄机射出的子弹的基准速度（英雄机无特定速度）
      * @param hp        初始生命值
      */
-    public HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
+    private HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
     }
 
-    @Override
-    public void forward() {
-        // 英雄机由鼠标控制，不通过forward函数移动
+    public static HeroAircraft getInstace() {
+        // 第一次检查，避免不必要的同步
+        if (m_instance == null) {
+            // 同步块，对类对象加锁
+            synchronized (HeroAircraft.class) {
+                // 第二次检查，防止多线程问题
+                if (m_instance == null) {
+                    m_instance = new HeroAircraft(
+                            Main.WINDOW_WIDTH / 2,
+                            Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(),
+                            0, 0, 1000);
+                    ;
+                    System.out.println("m_instance created: " + m_instance);
+                }
+            }
+        }
+        return m_instance;
     }
+
+    // 私有成员
+    private static HeroAircraft m_instance;
 
 }

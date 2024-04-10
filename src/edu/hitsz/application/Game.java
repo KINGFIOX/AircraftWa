@@ -70,11 +70,7 @@ public class Game extends JPanel {
 
     public Game() {
         // 英雄飞机只有一个
-        heroAircraft = new HeroAircraft(
-                Main.WINDOW_WIDTH / 2,
-                Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(),
-                0, 0, 1000);
-//                0, 0, 100);
+        heroAircraft = HeroAircraft.getInstace();
 
         enemyAircrafts = new LinkedList<>();
         heroBullets = new LinkedList<>();
@@ -91,7 +87,7 @@ public class Game extends JPanel {
         this.executorService = new ScheduledThreadPoolExecutor(1,
                 new BasicThreadFactory.Builder().namingPattern("game-action-%d").daemon(true).build());
 
-        // 启动英雄机鼠标监听
+        // 启动英雄机 鼠标 + 键盘 监听
         new HeroController(this, heroAircraft);
 
     }
@@ -100,7 +96,6 @@ public class Game extends JPanel {
      * 游戏启动入口，执行游戏逻辑
      */
     public void action() {
-
 
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
         Runnable task = () -> {
@@ -115,20 +110,10 @@ public class Game extends JPanel {
 
                 if (enemyAircrafts.size() < enemyMaxNumber) {
 
-//                    enemyAircrafts.add();
+                    // enemyAircrafts.add();
 
-                    // 太操蛋了，喜欢写 C++ 是吧
-//                    EnemyAircraftGenerator::generateEnemy();
+                    // EnemyAircraftGenerator::generateEnemy();
                     enemyAircrafts.add(EnemyAircraftGenerator.generateEnemy());
-
-
-//                    // TODO 可以使用工厂: 普通敌机、精英敌机、BOSS
-//                    enemyAircrafts.add(new MobAircraft(
-//                            (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())),
-//                            (int) (Math.random() * Main.WINDOW_HEIGHT * 0.05),
-//                            0,
-//                            10,
-//                            30));
                 }
 
                 // 飞机射出子弹
@@ -215,7 +200,6 @@ public class Game extends JPanel {
         }
     }
 
-
     /**
      * 敌机移动
      */
@@ -264,17 +248,13 @@ public class Game extends JPanel {
                     bullet.vanish();
 
                     if (enemyAircraft.notValid()) { // 敌人的飞机被击毁
-                        // TODO 获得分数，产生道具补给
                         score += enemyAircraft.getScore();
-                        if (enemyAircraft instanceof EliteAircraft) {
-                            // TODO 掉落道具 工厂模式
-                            // 这个时候，我还可以知道 enemyAircraft 当前的位置
-                            int _x = enemyAircraft.getLocationX();
-                            int _y = enemyAircraft.getLocationY();
-                            BaseProp p = PropGenerator.generateProp(_x, _y);
-                            if (p != null) {
-                                props.add(p);
-                            }
+
+                        // 听说你喜欢奖励
+                        BaseProp p = enemyAircraft.award();
+                        if (p != null) {
+                            props.add(p);
+
                         }
                     }
                 }
@@ -299,7 +279,6 @@ public class Game extends JPanel {
             }
             score += p.getScore(); // 加分
         }
-
 
     }
 

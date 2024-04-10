@@ -59,7 +59,6 @@ public abstract class AbstractFlyingObject {
      */
     protected boolean isValid = true;
 
-
     public AbstractFlyingObject() {
     }
 

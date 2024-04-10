@@ -2,6 +2,7 @@ package edu.hitsz.aircraft;
 
 import edu.hitsz.application.Main;
 import edu.hitsz.bullet.BaseBullet;
+import edu.hitsz.prop.BaseProp;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -28,12 +29,10 @@ public abstract class EnemyAircraft extends AbstractAircraft {
      */
     protected int direction = 1;
 
-
     @Override
     public List<BaseBullet> shoot() {
         return new LinkedList<>();
     }
-
 
     /* ---------- ---------- 分数 ---------- ---------- */
 
@@ -46,7 +45,6 @@ public abstract class EnemyAircraft extends AbstractAircraft {
 
     /* ---------- ---------- 构造函数 ---------- ---------- */
 
-
     public EnemyAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int _score) {
         super(locationX, locationY, speedX, speedY, hp);
         this.score = _score;
@@ -54,17 +52,23 @@ public abstract class EnemyAircraft extends AbstractAircraft {
 
     /* ---------- ---------- 飞行一格 ---------- ---------- */
 
-
     /**
      * enemy
      */
     @Override
     public void forward() {
-        super.forward();  // 调用 AbstractFlyingObject 的 forward
+        super.forward(); // 调用 AbstractFlyingObject 的 forward
         // 判定 y 轴向下飞行出界
         if (locationY >= Main.WINDOW_HEIGHT) {
             vanish();
         }
     }
+
+    /* ---------- ---------- 掉落物品 ---------- ---------- */
+
+    /**
+     * 听说你喜欢奖励
+     */
+    abstract public BaseProp award();
 
 }

@@ -3,12 +3,14 @@ package edu.hitsz.aircraft;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.bullet.EnemyBullet;
 import edu.hitsz.bullet.HeroBullet;
+import edu.hitsz.prop.BaseProp;
+import edu.hitsz.propfactory.PropGenerator;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class EliteAircraft extends EnemyAircraft {
-    public EliteAircraft (int locationX, int locationY, int speedX, int speedY, int hp, int score) {
+    public EliteAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int score) {
         super(locationX, locationY, speedX, speedY, hp, score);
     }
 
@@ -28,6 +30,11 @@ public class EliteAircraft extends EnemyAircraft {
             res.add(bullet);
         }
         return res;
+    }
+
+    @Override
+    public BaseProp award() {
+        return PropGenerator.generateProp(this.locationX, this.locationY);
     }
 
 }
