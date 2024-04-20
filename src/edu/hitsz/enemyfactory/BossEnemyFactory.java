@@ -1,7 +1,7 @@
 package edu.hitsz.enemyfactory;
 
-import edu.hitsz.aircraft.EnemyAircraft;
-import edu.hitsz.aircraft.BossAircraft;
+import edu.hitsz.aircraft.enemy.EnemyAircraft;
+import edu.hitsz.aircraft.enemy.BossAircraft;
 
 public class BossEnemyFactory implements IEnemyAircraftFactory {
     @Override

@@ -1,8 +1,9 @@
-package edu.hitsz.aircraft;
+package edu.hitsz.aircraft.enemy;
 
 import edu.hitsz.application.Main;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.prop.BaseProp;
+import edu.hitsz.propfactory.PropGenerator;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -34,8 +35,8 @@ public class MobAircraft extends EnemyAircraft {
     }
 
     @Override
-    public BaseProp award() {
-        return null;
+    public List<BaseProp> award() {
+        return new LinkedList<>();
     }
 
 }

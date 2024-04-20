@@ -5,6 +5,7 @@ import edu.hitsz.application.Main;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.bullet.HeroBullet;
 import edu.hitsz.prop.BaseProp;
+import edu.hitsz.shootstrategy.StraightShootStrategy;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -40,20 +41,22 @@ public class HeroAircraft extends AbstractAircraft {
      * @return 射击出的子弹List
      */
     public List<BaseBullet> shoot() {
-        List<BaseBullet> res = new LinkedList<>();
-        int x = this.getLocationX();
-        int y = this.getLocationY() + direction * 2;
-        int speedX = 0;
-        int speedY = this.getSpeedY() + direction * 5;
-        BaseBullet bullet;
-        for (int i = 0; i < shootNum; i++) {
-            // 子弹发射位置相对飞机位置向前偏移
-            // 多个子弹横向分散，但是感觉这也不分散啊
-            bullet = new HeroBullet(x + (i * 2 - shootNum + 1) * 10, y, speedX, speedY, power);
-            // bullet = new HeroBullet(x , y, speedX, speedY, power);
-            res.add(bullet);
-        }
-        return res;
+//        List<BaseBullet> res = new LinkedList<>();
+//        int x = this.getLocationX();
+//        int y = this.getLocationY() + direction * 2;
+//        int speedX = 0;
+//        int speedY = this.getSpeedY() + direction * 5;
+//        BaseBullet bullet;
+//        for (int i = 0; i < shootNum; i++) {
+//            // 子弹发射位置相对飞机位置向前偏移
+//            // 多个子弹横向分散，但是感觉这也不分散啊
+//            bullet = new HeroBullet(x + (i * 2 - shootNum + 1) * 10, y, speedX, speedY, power);
+//            // bullet = new HeroBullet(x , y, speedX, speedY, power);
+//            res.add(bullet);
+//        }
+//        return res;
+        return shootStrategy.generateBullet(this.getLocationX(), this.getLocationY(), 0, this.getSpeedY(),
+                this.shootNum, direction, power, true);
     }
 
     /* ---------- ---------- 道具的作用 ----------- ---------- */
@@ -91,6 +94,7 @@ public class HeroAircraft extends AbstractAircraft {
      */
     private HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
+        this.shootStrategy = new StraightShootStrategy();
     }
 
     public static HeroAircraft getInstace() {

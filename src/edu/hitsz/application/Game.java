@@ -1,13 +1,15 @@
 package edu.hitsz.application;
 
 import edu.hitsz.aircraft.*;
+import edu.hitsz.aircraft.enemy.BossAircraft;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
-import edu.hitsz.enemyfactory.EliteEnemyFactory;
+import edu.hitsz.aircraft.enemy.EnemyAircraft;
+import edu.hitsz.enemyfactory.BossEnemyFactory;
 import edu.hitsz.enemyfactory.EnemyAircraftGenerator;
 
+import edu.hitsz.enemyfactory.IEnemyAircraftFactory;
 import edu.hitsz.prop.BaseProp;
-import edu.hitsz.propfactory.PropGenerator;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
@@ -92,6 +94,10 @@ public class Game extends JPanel {
 
     }
 
+    private static IEnemyAircraftFactory bossFactory = new BossEnemyFactory();
+    private static Random random = new Random();
+    private static int lastBossScore = 0;
+
     /**
      * 游戏启动入口，执行游戏逻辑
      */
@@ -116,6 +122,17 @@ public class Game extends JPanel {
                     enemyAircrafts.add(EnemyAircraftGenerator.generateEnemy());
                 }
 
+                if (score - lastBossScore >= 1000) {
+                    boolean existed = enemyAircrafts.stream().anyMatch(x -> (x instanceof BossAircraft));
+                    if (!existed) {
+                        int locationX = (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())); // 假设游戏宽度为300
+                        int locationY = (int) (Math.random() * Main.WINDOW_HEIGHT * 0.05);
+                        int speedX = random.nextInt(4) - 2;  // 假设速度在 (0, 4) - 2 之间
+                        int speedY = random.nextInt(10) + 5; // 假设速度在5到14之间
+                        enemyAircrafts.add(bossFactory.createEnemyAircraft(locationX, locationY, speedX >> 2, speedY >> 2, 500, 100));
+                        lastBossScore = score;
+                    }
+                }
                 // 飞机射出子弹
                 shootAction();
             }
@@ -251,11 +268,8 @@ public class Game extends JPanel {
                         score += enemyAircraft.getScore();
 
                         // 听说你喜欢奖励
-                        BaseProp p = enemyAircraft.award();
-                        if (p != null) {
-                            props.add(p);
-
-                        }
+                        List<BaseProp> p = enemyAircraft.award();
+                        props.addAll(p);
                     }
                 }
                 // 英雄机 与 敌机 相撞，均损毁
@@ -266,7 +280,6 @@ public class Game extends JPanel {
             }
         }
 
-        // TODO 我方获得道具，道具生效
         for (BaseProp p : props) {
             if (p.notValid()) {
                 continue;

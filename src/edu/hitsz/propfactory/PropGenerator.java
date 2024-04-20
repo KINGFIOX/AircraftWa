@@ -1,9 +1,6 @@
 package edu.hitsz.propfactory;
 
-import edu.hitsz.application.ImageManager;
-import edu.hitsz.application.Main;
 import edu.hitsz.prop.BaseProp;
-import edu.hitsz.prop.BloodProp;
 
 import java.util.Random;
 
@@ -18,7 +15,7 @@ public class PropGenerator {
 
     public static BaseProp generateProp(int locationX, int locationY) {
         // 随机选择敌机类型
-        PropType type = PropType.values()[random.nextInt(PropType.values().length)];
+        EPropType type = EPropType.values()[random.nextInt(EPropType.values().length)];
 
         // 敌机的初始位置和属性，这里仅为示例，实际可能需要更合理的生成逻辑
         int speedX = random.nextInt(10) + 5;

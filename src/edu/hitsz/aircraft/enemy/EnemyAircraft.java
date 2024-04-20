@@ -1,5 +1,6 @@
-package edu.hitsz.aircraft;
+package edu.hitsz.aircraft.enemy;
 
+import edu.hitsz.aircraft.AbstractAircraft;
 import edu.hitsz.application.Main;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.prop.BaseProp;
@@ -69,6 +70,6 @@ public abstract class EnemyAircraft extends AbstractAircraft {
     /**
      * 听说你喜欢奖励
      */
-    abstract public BaseProp award();
+    abstract public List<BaseProp> award();
 
 }

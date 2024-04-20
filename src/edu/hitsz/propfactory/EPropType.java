@@ -1,6 +1,6 @@
 package edu.hitsz.propfactory;
 
-public enum PropType {
+public enum EPropType {
     BLOOD, BOMB, BULLET
 }
 

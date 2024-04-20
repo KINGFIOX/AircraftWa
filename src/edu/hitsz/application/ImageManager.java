@@ -1,9 +1,10 @@
 package edu.hitsz.application;
 
-import edu.hitsz.aircraft.BossAircraft;
-import edu.hitsz.aircraft.EliteAircraft;
+import edu.hitsz.aircraft.enemy.BossAircraft;
+import edu.hitsz.aircraft.enemy.EliteAircraft;
 import edu.hitsz.aircraft.HeroAircraft;
-import edu.hitsz.aircraft.MobAircraft;
+import edu.hitsz.aircraft.enemy.ElitePlusAircraft;
+import edu.hitsz.aircraft.enemy.MobAircraft;
 import edu.hitsz.bullet.EnemyBullet;
 import edu.hitsz.bullet.HeroBullet;
 import edu.hitsz.prop.BloodProp;
@@ -11,7 +12,6 @@ import edu.hitsz.prop.BombProp;
 import edu.hitsz.prop.BulletProp;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageInputStream;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -33,15 +33,20 @@ public class ImageManager {
     private static final Map<String, BufferedImage> CLASSNAME_IMAGE_MAP = new HashMap<>();
 
     public static BufferedImage BACKGROUND_IMAGE;
+
     public static BufferedImage HERO_IMAGE;
+
     public static BufferedImage HERO_BULLET_IMAGE;
     public static BufferedImage ENEMY_BULLET_IMAGE;
+
     public static BufferedImage MOB_ENEMY_IMAGE;
     public static BufferedImage ELITE_ENEMY_IMAGE;
+    public static BufferedImage ELITEPLUS_ENEMY_IMAGE;
     public static BufferedImage BOSS_ENEMY_IMAGE;
-    public static BufferedImage BLOOD_ENEMY_IMAGE;
-    public static BufferedImage BOMB_ENEMY_IMAGE;
-    public static BufferedImage BULLET_ENEMY_IMAGE;
+
+    public static BufferedImage BLOOD_PROP_IMAGE;
+    public static BufferedImage BOMB_PROP_IMAGE;
+    public static BufferedImage BULLET_PROP_IMAGE;
 
 
     // static 静态初始块
@@ -60,12 +65,13 @@ public class ImageManager {
             // 敌人
             MOB_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/mob.png"));
             ELITE_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/elite.png"));
+            ELITEPLUS_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/elitePlus.png"));
             BOSS_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/boss.png"));
 
             // 道具
-            BLOOD_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/prop_blood.png"));
-            BOMB_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/prop_bomb.png"));
-            BULLET_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/prop_bullet.png"));
+            BLOOD_PROP_IMAGE = ImageIO.read(new FileInputStream("src/images/prop_blood.png"));
+            BOMB_PROP_IMAGE = ImageIO.read(new FileInputStream("src/images/prop_bomb.png"));
+            BULLET_PROP_IMAGE = ImageIO.read(new FileInputStream("src/images/prop_bullet.png"));
 
 
             // <class>.class.getName() 返回类的名字
@@ -76,11 +82,12 @@ public class ImageManager {
 
             CLASSNAME_IMAGE_MAP.put(MobAircraft.class.getName(), MOB_ENEMY_IMAGE);
             CLASSNAME_IMAGE_MAP.put(EliteAircraft.class.getName(), ELITE_ENEMY_IMAGE);
+            CLASSNAME_IMAGE_MAP.put(ElitePlusAircraft.class.getName(), ELITEPLUS_ENEMY_IMAGE);
             CLASSNAME_IMAGE_MAP.put(BossAircraft.class.getName(), BOSS_ENEMY_IMAGE);
 
-            CLASSNAME_IMAGE_MAP.put(BloodProp.class.getName(), BLOOD_ENEMY_IMAGE);
-            CLASSNAME_IMAGE_MAP.put(BombProp.class.getName(), BOMB_ENEMY_IMAGE);
-            CLASSNAME_IMAGE_MAP.put(BulletProp.class.getName(), BULLET_ENEMY_IMAGE);
+            CLASSNAME_IMAGE_MAP.put(BloodProp.class.getName(), BLOOD_PROP_IMAGE);
+            CLASSNAME_IMAGE_MAP.put(BombProp.class.getName(), BOMB_PROP_IMAGE);
+            CLASSNAME_IMAGE_MAP.put(BulletProp.class.getName(), BULLET_PROP_IMAGE);
 
 
         } catch (IOException e) {
