@@ -5,6 +5,7 @@ import edu.hitsz.application.Main;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.bullet.HeroBullet;
 import edu.hitsz.prop.BaseProp;
+import edu.hitsz.shootstrategy.IShootStrategy;
 import edu.hitsz.shootstrategy.StraightShootStrategy;
 
 import java.util.LinkedList;
@@ -55,8 +56,7 @@ public class HeroAircraft extends AbstractAircraft {
 //            res.add(bullet);
 //        }
 //        return res;
-        return shootStrategy.generateBullet(this.getLocationX(), this.getLocationY(), 0, this.getSpeedY(),
-                this.shootNum, direction, power, true);
+        return shootStrategy.generateBullet(this.getLocationX(), this.getLocationY(), 10, 10, 4, direction, power, true);
     }
 
     /* ---------- ---------- 道具的作用 ----------- ---------- */
@@ -71,6 +71,12 @@ public class HeroAircraft extends AbstractAircraft {
     public void addShootNum(int level) {
         System.out.println("bullet");
         this.shootNum += level;
+        return;
+    }
+
+    public void changeShootStrategy(IShootStrategy shootStrategy) {
+        System.out.println("change shoot strategy");
+        this.shootStrategy = shootStrategy;
         return;
     }
 

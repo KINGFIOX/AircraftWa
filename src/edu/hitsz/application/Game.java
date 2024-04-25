@@ -1,6 +1,9 @@
 package edu.hitsz.application;
 
 import edu.hitsz.aircraft.*;
+import edu.hitsz.aircraft.DataIO.Entry;
+import edu.hitsz.aircraft.DataIO.IRankList;
+import edu.hitsz.aircraft.DataIO.TreeMapRankList;
 import edu.hitsz.aircraft.enemy.BossAircraft;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
@@ -15,6 +18,7 @@ import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.*;
@@ -50,6 +54,11 @@ public class Game extends JPanel {
     private int enemyMaxNumber = 5;
 
     /**
+     * 得分排行榜
+     */
+    private IRankList scoreboard;
+
+    /**
      * 当前得分
      */
     private int score = 0;
@@ -78,6 +87,13 @@ public class Game extends JPanel {
         heroBullets = new LinkedList<>();
         enemyBullets = new LinkedList<>();
         props = new LinkedList<>();
+
+        scoreboard = new TreeMapRankList();
+        try {
+            scoreboard.load("data/ScoreBoard.csv");
+        } catch (IOException e) {
+            // TODO 有问题
+        }
 
         /**
          * Scheduled 线程池，用于定时任务调度
@@ -161,6 +177,14 @@ public class Game extends JPanel {
                 this.executorService.shutdown();
                 gameOverFlag = true;
                 System.out.println("Game Over!");
+                scoreboard.addEntry(new Entry(score, System.currentTimeMillis()));
+                try {
+                    scoreboard.store("data/ScoreBoard.csv");
+                } catch (IOException e) {
+                    // TODO
+                }
+                scoreboard.printEntries();
+
             }
 
         };

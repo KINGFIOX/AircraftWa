@@ -9,6 +9,7 @@ public class PropGenerator {
     private static final IPropFactory bloodFactory = new BloodPropFactory();
     private static final IPropFactory bombFactory = new BombPropFactory();
     private static final IPropFactory bulletFactory = new BulletPropFactory();
+    private static final IPropFactory bulletPlusFactory = new BulletPlusPropFactory();
 
     // 用来获取整数的
     private static final Random random = new Random();
@@ -39,6 +40,9 @@ public class PropGenerator {
             case BULLET:
                 level = 1;
                 return bulletFactory.createProp(locationX, locationY, speedX, speedY, 10, 0, level);
+            case BULLETPLUS:
+                level = 1;
+                return bulletPlusFactory.createProp(locationX, locationY, speedX, speedY, 10, 0, level);
             default:
                 // 暂时默认生成
                 return null;

@@ -2,6 +2,7 @@ package edu.hitsz.prop;
 
 
 import edu.hitsz.aircraft.HeroAircraft;
+import edu.hitsz.shootstrategy.ScatterShootStrategy;
 
 public class BulletProp extends BaseProp {
     public BulletProp(int locationX, int locationY, int speedX, int speedY, int score, int dura, int power) {
@@ -10,7 +11,7 @@ public class BulletProp extends BaseProp {
 
     @Override
     public void effect(HeroAircraft h) {
-        h.addShootNum(level);
+        h.changeShootStrategy( new ScatterShootStrategy() );
         System.out.println("FireSupply active!");
     }
 

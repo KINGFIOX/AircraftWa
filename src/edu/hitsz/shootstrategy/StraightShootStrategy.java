@@ -14,7 +14,7 @@ public class StraightShootStrategy implements IShootStrategy {
         int x = getLocX;
         int y = getLocY + direction * 2;
         int speedX = 0;
-        int speedY = getSpeedY + direction * 5;
+        int speedY = (getSpeedY + 5) * direction;
         int power = getPower;
         int shootNum = getShootNum;
         BaseBullet bullet;
@@ -31,5 +31,4 @@ public class StraightShootStrategy implements IShootStrategy {
         }
         return res;
     }
-
 }
