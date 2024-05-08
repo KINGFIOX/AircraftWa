@@ -1,4 +1,4 @@
-package edu.hitsz.aircraft.bgm;
+package edu.hitsz.bgm;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -74,7 +74,7 @@ public class MusicThread extends Thread {
         }
 
         dataLine.start();
-        System.out.println("Audio playback started");
+//        System.out.println("Audio playback started");
 
         try {
             while (!stopRequested) {
@@ -84,7 +84,7 @@ public class MusicThread extends Thread {
                 // Inner loop to read and write audio data
                 while ((numBytesRead = source.read(buffer, 0, buffer.length)) != -1 && !stopRequested) {
                     dataLine.write(buffer, 0, numBytesRead);
-                    System.out.println("Playing audio data...");
+//                    System.out.println("Playing audio data...");
                 }
                 // Break if looping isn't required
                 if (!loop) {
@@ -117,6 +117,6 @@ public class MusicThread extends Thread {
             e.printStackTrace();
         }
         play(stream);
-        System.out.println("end void run()");
+//        System.out.println("end void run()");
     }
 }

@@ -1,4 +1,4 @@
-package edu.hitsz.aircraft.DataIO;
+package edu.hitsz.DataIO;
 
 import java.io.IOException;
 import java.util.List;

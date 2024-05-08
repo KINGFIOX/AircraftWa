@@ -1,10 +1,10 @@
-package game.prop.bulletprop;
+package edu.hitsz.prop.bulletprop;
 
-import game.aircraft.HeroAircraft;
-import game.aircraft.bgm.WaveManager;
-import game.shootstrategy.CircleShootStrategy;
-import game.shootstrategy.IShootStrategy;
-import game.shootstrategy.StraightShootStrategy;
+import edu.hitsz.aircraft.HeroAircraft;
+import edu.hitsz.bgm.WaveManager;
+import edu.hitsz.shootstrategy.CircleShootStrategy;
+import edu.hitsz.shootstrategy.IShootStrategy;
+import edu.hitsz.shootstrategy.StraightShootStrategy;
 
 /**
  * 环形弹道
@@ -27,7 +27,7 @@ public class BulletPlusProp extends BaseBulletProp {
             // 休眠 5s
             try {
                 System.out.println("环射，持续 5s");
-                Thread.sleep(5000);
+                Thread.sleep(dura * 1000);
                 h.changeShootStrategy(origin);
             } catch (InterruptedException e) {
                 // 打印中断信息

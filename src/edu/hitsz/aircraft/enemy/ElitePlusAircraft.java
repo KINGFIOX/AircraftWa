@@ -1,9 +1,10 @@
-package game.aircraft.enemy;
+package edu.hitsz.aircraft.enemy;
 
-import game.bullet.BaseBullet;
-import game.prop.BaseProp;
-import game.propfactory.PropGenerator;
-import game.shootstrategy.ScatterShootStrategy;
+import config.CONFIG;
+import edu.hitsz.bullet.BaseBullet;
+import edu.hitsz.prop.BaseProp;
+import edu.hitsz.propfactory.PropGenerator;
+import edu.hitsz.shootstrategy.ScatterShootStrategy;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class ElitePlusAircraft extends EnemyAircraft {
 //        }
 //        return res;
         return shootStrategy.generateBullet(this.getLocationX(), this.getLocationY(), 0, this.getSpeedY(),
-                3, direction, power, false);
+                CONFIG.Enemy.ELITE_PLUS_SHOOT_NUMBER, direction, power, false);
     }
 
     @Override

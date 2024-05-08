@@ -1,11 +1,11 @@
-package game.prop.bulletprop;
+package edu.hitsz.prop.bulletprop;
 
 
-import game.aircraft.HeroAircraft;
-import game.aircraft.bgm.WaveManager;
-import game.shootstrategy.IShootStrategy;
-import game.shootstrategy.ScatterShootStrategy;
-import game.shootstrategy.StraightShootStrategy;
+import edu.hitsz.aircraft.HeroAircraft;
+import edu.hitsz.bgm.WaveManager;
+import edu.hitsz.shootstrategy.IShootStrategy;
+import edu.hitsz.shootstrategy.ScatterShootStrategy;
+import edu.hitsz.shootstrategy.StraightShootStrategy;
 
 public class BulletProp extends BaseBulletProp {
     public BulletProp(int locationX, int locationY, int speedX, int speedY, int score, int dura, int power) {
@@ -23,7 +23,7 @@ public class BulletProp extends BaseBulletProp {
             // 休眠 5s
             try {
                 System.out.println("环射，持续 5s");
-                Thread.sleep(5000);
+                Thread.sleep(dura * 1000);
                 h.changeShootStrategy(origin);
             } catch (InterruptedException e) {
                 // 打印中断信息
@@ -34,11 +34,11 @@ public class BulletProp extends BaseBulletProp {
             }
         };
         // 清除现有的效果
-        if (running != null && running.isAlive()) {
-            running.interrupt();
+        if (BaseBulletProp.running != null && BaseBulletProp.running.isAlive()) {
+            BaseBulletProp.running.interrupt();
         }
 
-        running = new Thread(r);
+        BaseBulletProp.running = new Thread(r);
         running.start();
         System.out.println("FireSupply active!");
     }

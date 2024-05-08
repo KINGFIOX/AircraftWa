@@ -1,9 +1,9 @@
-package game.basic;
+package edu.hitsz.basic;
 
-import game.aircraft.AbstractAircraft;
-import game.application.ImageManager;
-import game.application.Main;
-import game.prop.BaseProp;
+import edu.hitsz.aircraft.AbstractAircraft;
+import edu.hitsz.application.AircraftWar;
+import edu.hitsz.application.ImageManager;
+import edu.hitsz.prop.BaseProp;
 
 import java.awt.image.BufferedImage;
 
@@ -79,7 +79,7 @@ public abstract class AbstractFlyingObject {
         locationY += speedY;
         // 这个就有点像是: 子弹撞到边界以后会反弹
         // 不过我就寻思着: 应该没有 enemy 会横向走的吧
-        if (locationX <= 0 || locationX >= Main.WINDOW_WIDTH) {
+        if (locationX <= 0 || locationX >= AircraftWar.WINDOW_WIDTH) {
             // 横向超出边界后反向
             speedX = -speedX;
         }

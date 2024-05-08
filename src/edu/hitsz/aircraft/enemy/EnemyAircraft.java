@@ -1,9 +1,10 @@
-package game.aircraft.enemy;
+package edu.hitsz.aircraft.enemy;
 
-import game.aircraft.AbstractAircraft;
-import game.application.Main;
-import game.bullet.BaseBullet;
-import game.prop.BaseProp;
+import config.CONFIG;
+import edu.hitsz.aircraft.AbstractAircraft;
+import edu.hitsz.application.AircraftWar;
+import edu.hitsz.bullet.BaseBullet;
+import edu.hitsz.prop.BaseProp;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,12 +19,12 @@ public abstract class EnemyAircraft extends AbstractAircraft {
     /**
      * 子弹一次发射数量
      */
-    protected int shootNum = 1; // FIXME CONFIG
+    protected int shootNum = CONFIG.Enemy.ELITE_SHOOT_NUMBER; // FIXME CONFIG
 
     /**
      * 子弹伤害
      */
-    protected int power = 10; // FIXME CONFIG
+    protected int power = CONFIG.Enemy.ENEMY_BULLET_POWER; // FIXME CONFIG
 
     /**
      * 子弹射击方向 (向上发射：1，向下发射：-1)
@@ -60,7 +61,7 @@ public abstract class EnemyAircraft extends AbstractAircraft {
     public void forward() {
         super.forward(); // 调用 AbstractFlyingObject 的 forward
         // 判定 y 轴向下飞行出界
-        if (locationY >= Main.WINDOW_HEIGHT) {
+        if (locationY >= AircraftWar.WINDOW_HEIGHT) {
             vanish();
         }
     }

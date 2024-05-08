@@ -1,16 +1,16 @@
-package game.application;
+package edu.hitsz.application;
 
-import game.aircraft.enemy.BossAircraft;
-import game.aircraft.enemy.EliteAircraft;
-import game.aircraft.HeroAircraft;
-import game.aircraft.enemy.ElitePlusAircraft;
-import game.aircraft.enemy.MobAircraft;
-import game.bullet.EnemyBullet;
-import game.bullet.HeroBullet;
-import game.prop.BloodProp;
-import game.prop.BombProp;
-import game.prop.bulletprop.BulletPlusProp;
-import game.prop.bulletprop.BulletProp;
+import edu.hitsz.aircraft.enemy.BossAircraft;
+import edu.hitsz.aircraft.enemy.EliteAircraft;
+import edu.hitsz.aircraft.HeroAircraft;
+import edu.hitsz.aircraft.enemy.ElitePlusAircraft;
+import edu.hitsz.aircraft.enemy.MobAircraft;
+import edu.hitsz.bullet.EnemyBullet;
+import edu.hitsz.bullet.HeroBullet;
+import edu.hitsz.prop.BloodProp;
+import edu.hitsz.prop.BombProp;
+import edu.hitsz.prop.bulletprop.BulletPlusProp;
+import edu.hitsz.prop.bulletprop.BulletProp;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -33,7 +33,14 @@ public class ImageManager {
      */
     private static final Map<String, BufferedImage> CLASSNAME_IMAGE_MAP = new HashMap<>();
 
-    public static BufferedImage BACKGROUND_IMAGE;
+    /**
+     * 背景们
+     */
+    public static BufferedImage BACKGROUND_IMAGE1;
+    public static BufferedImage BACKGROUND_IMAGE2;
+    public static BufferedImage BACKGROUND_IMAGE3;
+    public static BufferedImage BACKGROUND_IMAGE4;
+    public static BufferedImage BACKGROUND_IMAGE5;
 
     public static BufferedImage HERO_IMAGE;
 
@@ -55,7 +62,11 @@ public class ImageManager {
         try {
 
             // 背景
-            BACKGROUND_IMAGE = ImageIO.read(new FileInputStream("src/images/bg.jpg"));
+            BACKGROUND_IMAGE1 = ImageIO.read(new FileInputStream("src/images/bg.jpg"));
+            BACKGROUND_IMAGE2 = ImageIO.read(new FileInputStream("src/images/bg2.jpg"));
+            BACKGROUND_IMAGE3 = ImageIO.read(new FileInputStream("src/images/bg3.jpg"));
+            BACKGROUND_IMAGE4 = ImageIO.read(new FileInputStream("src/images/bg4.jpg"));
+            BACKGROUND_IMAGE5 = ImageIO.read(new FileInputStream("src/images/bg5.jpg"));
 
             HERO_IMAGE = ImageIO.read(new FileInputStream("src/images/hero.png"));
 

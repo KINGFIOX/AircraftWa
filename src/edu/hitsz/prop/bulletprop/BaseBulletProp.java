@@ -1,6 +1,6 @@
-package game.prop.bulletprop;
+package edu.hitsz.prop.bulletprop;
 
-import game.prop.BaseProp;
+import edu.hitsz.prop.BaseProp;
 
 public abstract class BaseBulletProp extends BaseProp {
 

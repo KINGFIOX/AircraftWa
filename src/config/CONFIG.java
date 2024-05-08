@@ -1,6 +1,6 @@
 package config;
 
-public class GameConfig {
+public class CONFIG {
 
     // final 是设置 不可变 变量
 
@@ -21,12 +21,12 @@ public class GameConfig {
         public static final int CYCLE_DURATION = 600;
 
         /**
-         * 没多少分生成一次 boss
+         * 每多少分生成一次 boss
          */
         public static final int BOSS_EVERY_SCORE = 1000;
 
         /**
-         *
+         * 英雄飞机血量
          */
         public static final int HERO_HP = 1000;
 
@@ -41,8 +41,12 @@ public class GameConfig {
          */
         public static final int HERO_SHOOT_NUM = 4;
 
+        /**
+         *
+         */
         public static final int HERO_BULLET_SPEED = 10;
 
+        public static final String DATA_PATH = "data/ScoreBoard.csv";
 
     }
 
@@ -58,7 +62,21 @@ public class GameConfig {
         public static final int WINDOW_HEIGHT = 768;
     }
 
-    public class Aircraft {
+    public class Prop {
+
+        /**
+         *
+         */
+        public static final int PROP_SCORE = 10;
+
+        /**
+         *
+         */
+        public static final int PROP_DURATION = 5;
+
+    }
+
+    public class Enemy {
 
         /**
          * boss 掉落的物品数量
@@ -86,8 +104,21 @@ public class GameConfig {
          */
         public static final int ENEMY_BULLET_POWER = 10; // FIXME CONFIG
 
+        /**
+         *
+         */
         public static final int MOB_HP = 30;
 
+
+        /**
+         *
+         */
+        public static final int ELITE_HP = 100;
+
+        /**
+         *
+         */
+        public static final int ELITE_PLUS_HP = 100;
 
     }
 

@@ -1,8 +1,8 @@
-package game.prop;
+package edu.hitsz.prop;
 
-import game.aircraft.HeroAircraft;
-import game.application.Main;
-import game.basic.AbstractFlyingObject;
+import edu.hitsz.aircraft.HeroAircraft;
+import edu.hitsz.application.AircraftWar;
+import edu.hitsz.basic.AbstractFlyingObject;
 
 public abstract class BaseProp  extends AbstractFlyingObject {
 
@@ -41,7 +41,7 @@ public abstract class BaseProp  extends AbstractFlyingObject {
         super.forward();
 
         // 判定 y 轴出界
-        if (speedY > 0 && locationY >= Main.WINDOW_HEIGHT ) {
+        if (speedY > 0 && locationY >= AircraftWar.WINDOW_HEIGHT ) {
             // 向下飞行出界
             vanish();
         }else if (locationY <= 0){

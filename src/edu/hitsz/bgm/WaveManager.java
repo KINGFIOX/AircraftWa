@@ -1,8 +1,7 @@
-package edu.hitsz.aircraft.bgm;
+package edu.hitsz.bgm;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -26,7 +25,7 @@ public class WaveManager {
         addMusic("bomb_explosion", "src/videos/bomb_explosion.wav", false);
         addMusic("bullet", "src/videos/bullet.wav", false);
         addMusic("bullet_hit", "src/videos/bullet_hit.wav", false);
-        addMusic("game_over", "src/videos/game_over.wav", false);
+        addMusic("game_over", "src/videos/game_over.wav",false);
         addMusic("get_supply", "src/videos/get_supply.wav", false);
     }
 
@@ -64,12 +63,13 @@ public class WaveManager {
         }
     }
 
-    // Stops all music threads
-    public void stopAllMusic() {
-        for (String identifier : musicThreads.keySet()) {
-            stopMusic(identifier);
-        }
-    }
+//    // Stops all music threads
+//    public void stopAllMusic() {
+//        for (String identifier : musicThreads.keySet()) {
+//            stopMusic(identifier);
+//        }
+//        threadPool.shutdown();
+//    }
 
     // Plays a specific music thread by identifier, creating a new thread if necessary
     public void playMusic(String identifier) {

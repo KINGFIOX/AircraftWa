@@ -1,4 +1,4 @@
-package edu.hitsz.GAME;
+package edu.hitsz.game;
 
 import UI.Main;
 import config.CONFIG;
@@ -33,7 +33,7 @@ import java.util.concurrent.*;
  *
  * @author hitsz
  */
-public class Game extends JPanel {
+public abstract class AbstractGame extends JPanel {
 
     private int backGroundTop = 0;
 
@@ -67,6 +67,7 @@ public class Game extends JPanel {
      * 当前得分
      */
     private int score = 0;
+
     /**
      * 当前时刻
      */
@@ -84,7 +85,10 @@ public class Game extends JPanel {
      */
     private boolean gameOverFlag = false;
 
-    public Game() {
+    /**
+     * 构造函数
+     */
+    public AbstractGame() {
         // 英雄飞机只有一个
         heroAircraft = HeroAircraft.getInstace();
 
@@ -98,6 +102,7 @@ public class Game extends JPanel {
             scoreboard.load("data/ScoreBoard.csv");
         } catch (IOException e) {
             // TODO 有问题
+            e.printStackTrace();
         }
 
         /**
@@ -121,6 +126,7 @@ public class Game extends JPanel {
     private static IEnemyAircraftFactory bossFactory = new BossEnemyFactory();
     private static Random random = new Random();
     private static int lastBossScore = 0;
+
 
     /**
      * 游戏启动入口，执行游戏逻辑
@@ -375,6 +381,8 @@ public class Game extends JPanel {
     // Paint 各部分
     // ***********************
 
+    protected BufferedImage bg;
+
     /**
      * 重写paint方法
      * 通过重复调用paint方法，实现游戏动画
@@ -386,8 +394,8 @@ public class Game extends JPanel {
         super.paint(g);
 
         // 绘制背景,图片滚动
-        g.drawImage(ImageManager.BACKGROUND_IMAGE, 0, this.backGroundTop - CONFIG.Windows.WINDOW_HEIGHT, null);
-        g.drawImage(ImageManager.BACKGROUND_IMAGE, 0, this.backGroundTop, null);
+        g.drawImage(bg, 0, this.backGroundTop - CONFIG.Windows.WINDOW_HEIGHT, null);
+        g.drawImage(bg, 0, this.backGroundTop, null);
         // 循环滚动图片
         this.backGroundTop += 1;
         if (this.backGroundTop == CONFIG.Windows.WINDOW_HEIGHT) {

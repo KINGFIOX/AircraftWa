@@ -1,6 +1,6 @@
-package game.enemyfactory;
-import game.aircraft.enemy.EnemyAircraft;
-import game.aircraft.enemy.MobAircraft;
+package edu.hitsz.enemyfactory;
+import edu.hitsz.aircraft.enemy.EnemyAircraft;
+import edu.hitsz.aircraft.enemy.MobAircraft;
 
 public class MobEnemyFactory implements IEnemyAircraftFactory {
     @Override

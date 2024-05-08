@@ -1,11 +1,12 @@
-package game.aircraft;
+package edu.hitsz.aircraft;
 
-import game.application.ImageManager;
-import game.application.Main;
-import game.bullet.BaseBullet;
-import game.prop.BaseProp;
-import game.shootstrategy.IShootStrategy;
-import game.shootstrategy.StraightShootStrategy;
+import config.CONFIG;
+import edu.hitsz.application.AircraftWar;
+import edu.hitsz.application.ImageManager;
+import edu.hitsz.bullet.BaseBullet;
+import edu.hitsz.prop.BaseProp;
+import edu.hitsz.shootstrategy.IShootStrategy;
+import edu.hitsz.shootstrategy.StraightShootStrategy;
 
 import java.util.List;
 
@@ -21,12 +22,12 @@ public class HeroAircraft extends AbstractAircraft {
     /**
      * 子弹一次发射数量
      */
-    private int shootNum = 1; // FIXME CONFIG
+    private int shootNum = CONFIG.Game.HERO_SHOOT_NUM; // FIXME CONFIG
 
     /**
      * 子弹伤害
      */
-    private int power = 30; // FIXME CONFIG
+    private int power = CONFIG.Game.HERO_BULLET_POWER;
 
     /**
      * 子弹射击方向 (向上发射：1，向下发射：-1)
@@ -40,21 +41,9 @@ public class HeroAircraft extends AbstractAircraft {
      * @return 射击出的子弹List
      */
     public List<BaseBullet> shoot() {
-//        List<BaseBullet> res = new LinkedList<>();
-//        int x = this.getLocationX();
-//        int y = this.getLocationY() + direction * 2;
-//        int speedX = 0;
-//        int speedY = this.getSpeedY() + direction * 5;
-//        BaseBullet bullet;
-//        for (int i = 0; i < shootNum; i++) {
-//            // 子弹发射位置相对飞机位置向前偏移
-//            // 多个子弹横向分散，但是感觉这也不分散啊
-//            bullet = new HeroBullet(x + (i * 2 - shootNum + 1) * 10, y, speedX, speedY, power);
-//            // bullet = new HeroBullet(x , y, speedX, speedY, power);
-//            res.add(bullet);
-//        }
-//        return res;
-        return shootStrategy.generateBullet(this.getLocationX(), this.getLocationY(), 10, 10, 4, direction, power, true);
+        return shootStrategy.generateBullet(this.getLocationX(), this.getLocationY(),
+                CONFIG.Game.HERO_BULLET_SPEED, CONFIG.Game.HERO_BULLET_SPEED,
+                shootNum, direction, power, true);
     }
 
     /* ---------- ---------- 道具的作用 ----------- ---------- */
@@ -66,12 +55,6 @@ public class HeroAircraft extends AbstractAircraft {
         }
     }
 
-    public void addShootNum(int level) {
-        System.out.println("bullet");
-        this.shootNum += level;
-        return;
-    }
-
     public void changeShootStrategy(IShootStrategy shootStrategy) {
         System.out.println("change shoot strategy");
         this.shootStrategy = shootStrategy;
@@ -79,9 +62,8 @@ public class HeroAircraft extends AbstractAircraft {
     }
 
     /**
-     * @brief 先获取这个来恢复
-     *
      * @return
+     * @brief 先获取这个来恢复
      */
     public IShootStrategy getShootStrategy() {
         return this.shootStrategy;
@@ -120,9 +102,9 @@ public class HeroAircraft extends AbstractAircraft {
                 // 第二次检查，防止多线程问题
                 if (m_instance == null) {
                     m_instance = new HeroAircraft(
-                            Main.WINDOW_WIDTH / 2,
-                            Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(),
-                            0, 0, 1000);
+                            AircraftWar.WINDOW_WIDTH / 2,
+                            AircraftWar.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(),
+                            0, 0, CONFIG.Game.HERO_HP);
                     ;
                     System.out.println("m_instance created: " + m_instance);
                 }

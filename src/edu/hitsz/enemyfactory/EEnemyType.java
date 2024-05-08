@@ -1,4 +1,4 @@
-package game.enemyfactory;
+package edu.hitsz.enemyfactory;
 
 
 public enum EEnemyType {

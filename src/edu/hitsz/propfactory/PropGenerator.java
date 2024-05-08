@@ -1,6 +1,7 @@
-package game.propfactory;
+package edu.hitsz.propfactory;
 
-import game.prop.BaseProp;
+import config.CONFIG;
+import edu.hitsz.prop.BaseProp;
 
 import java.util.Random;
 
@@ -32,17 +33,17 @@ public class PropGenerator {
         switch (type) {
             case BOMB:
                 level = 0;
-                return bombFactory.createProp(locationX, locationY, speedX, speedY, 10, 0, level);
+                return bombFactory.createProp(locationX, locationY, speedX, speedY, CONFIG.Prop.PROP_SCORE, CONFIG.Prop.PROP_DURATION, level);
             case BLOOD:
                 level = (int) (Math.random() * 100);
-                return bloodFactory.createProp(locationX, locationY, speedX, speedY, 10, 0, level);
+                return bloodFactory.createProp(locationX, locationY, speedX, speedY, CONFIG.Prop.PROP_SCORE, CONFIG.Prop.PROP_DURATION, level);
             // TODO 暂时不加入 BOSS
             case BULLET:
                 level = 1;
-                return bulletFactory.createProp(locationX, locationY, speedX, speedY, 10, 0, level);
+                return bulletFactory.createProp(locationX, locationY, speedX, speedY, CONFIG.Prop.PROP_SCORE, CONFIG.Prop.PROP_DURATION, level);
             case BULLETPLUS:
                 level = 1;
-                return bulletPlusFactory.createProp(locationX, locationY, speedX, speedY, 10, 0, level);
+                return bulletPlusFactory.createProp(locationX, locationY, speedX, speedY, CONFIG.Prop.PROP_SCORE, CONFIG.Prop.PROP_DURATION, level);
             default:
                 // 暂时默认生成
                 return null;

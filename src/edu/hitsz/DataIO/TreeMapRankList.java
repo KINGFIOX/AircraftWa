@@ -1,4 +1,4 @@
-package edu.hitsz.aircraft.DataIO;
+package edu.hitsz.DataIO;
 
 import java.io.*;
 import java.util.*;

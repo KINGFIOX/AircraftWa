@@ -1,4 +1,4 @@
-package edu.hitsz.aircraft.DataIO;
+package edu.hitsz.DataIO;
 
 public class Entry {
     public int score;  // 分数，作为排名依据

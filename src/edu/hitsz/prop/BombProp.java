@@ -1,7 +1,7 @@
-package game.prop;
+package edu.hitsz.prop;
 
-import game.aircraft.HeroAircraft;
-import game.aircraft.bgm.WaveManager;
+import edu.hitsz.aircraft.HeroAircraft;
+import edu.hitsz.bgm.WaveManager;
 
 
 public class BombProp extends BaseProp {

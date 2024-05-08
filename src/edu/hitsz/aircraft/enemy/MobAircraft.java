@@ -1,8 +1,8 @@
-package game.aircraft.enemy;
+package edu.hitsz.aircraft.enemy;
 
-import game.application.Main;
-import game.bullet.BaseBullet;
-import game.prop.BaseProp;
+import edu.hitsz.application.AircraftWar;
+import edu.hitsz.bullet.BaseBullet;
+import edu.hitsz.prop.BaseProp;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class MobAircraft extends EnemyAircraft {
     public void forward() {
         super.forward();
         // 判定 y 轴向下飞行出界
-        if (locationY >= Main.WINDOW_HEIGHT) {
+        if (locationY >= AircraftWar.WINDOW_HEIGHT) {
             vanish();
         }
     }

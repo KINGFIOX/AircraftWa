@@ -1,8 +1,8 @@
-package game.shootstrategy;
+package edu.hitsz.shootstrategy;
 
-import game.bullet.BaseBullet;
-import game.bullet.EnemyBullet;
-import game.bullet.HeroBullet;
+import edu.hitsz.bullet.BaseBullet;
+import edu.hitsz.bullet.EnemyBullet;
+import edu.hitsz.bullet.HeroBullet;
 
 
 import java.util.List;

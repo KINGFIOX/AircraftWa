@@ -1,10 +1,11 @@
-package game.aircraft.enemy;
+package edu.hitsz.aircraft.enemy;
 
-import game.application.Main;
-import game.bullet.BaseBullet;
-import game.prop.BaseProp;
-import game.propfactory.PropGenerator;
-import game.shootstrategy.CircleShootStrategy;
+import config.CONFIG;
+import edu.hitsz.application.AircraftWar;
+import edu.hitsz.bullet.BaseBullet;
+import edu.hitsz.prop.BaseProp;
+import edu.hitsz.propfactory.PropGenerator;
+import edu.hitsz.shootstrategy.CircleShootStrategy;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class BossAircraft extends EnemyAircraft {
 
         List<BaseProp> res = new LinkedList<>();
         BaseProp p;
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < CONFIG.Enemy.BOSS_DROP_NUMBER; i++) {
             p = PropGenerator.generateProp(this.locationX, this.locationY);
             if (p != null) {
                 res.add(p);
@@ -36,11 +37,11 @@ public class BossAircraft extends EnemyAircraft {
         locationX += speedX;
         locationY += speedY;
 
-        if (locationX <= 0 || locationX >= Main.WINDOW_WIDTH) {
+        if (locationX <= 0 || locationX >= AircraftWar.WINDOW_WIDTH) {
             // 横向超出边界后反向
             speedX = -speedX;
         }
-        if (locationY <= 0 || locationY >= Main.WINDOW_HEIGHT / 4) {
+        if (locationY <= 0 || locationY >= AircraftWar.WINDOW_HEIGHT / 4) {
             // 横向超出边界后反向
             speedY = -speedY;
         }
@@ -69,7 +70,7 @@ public class BossAircraft extends EnemyAircraft {
     public List<BaseBullet> shoot() {
         int bulletSpeed = 4;
         return shootStrategy.generateBullet(this.getLocationX(), this.getLocationY(), bulletSpeed, bulletSpeed,
-                20, direction, power, false);
+                CONFIG.Enemy.BOSS_SHOOT_NUMBER, direction, power, false);
     }
 
 

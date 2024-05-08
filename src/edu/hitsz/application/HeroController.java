@@ -1,6 +1,7 @@
-package game.application;
+package edu.hitsz.application;
 
-import game.aircraft.HeroAircraft;
+import edu.hitsz.game.AbstractGame;
+import edu.hitsz.aircraft.HeroAircraft;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,14 +16,14 @@ import java.awt.event.KeyEvent;
  * @author hitsz
  */
 public class HeroController {
-    private Game game;
+    private AbstractGame abstractGame;
     private HeroAircraft heroAircraft;
     private MouseAdapter mouseAdapter;
 
     private KeyAdapter keyAdapter; // FIXME
 
-    public HeroController(Game game, HeroAircraft heroAircraft) {
-        this.game = game;
+    public HeroController(AbstractGame abstractGame, HeroAircraft heroAircraft) {
+        this.abstractGame = abstractGame;
         this.heroAircraft = heroAircraft;
 
         mouseAdapter = new MouseAdapter() {
@@ -31,7 +32,7 @@ public class HeroController {
                 super.mouseDragged(e);
                 int x = e.getX();
                 int y = e.getY();
-                if (x < 0 || x > Main.WINDOW_WIDTH || y < 0 || y > Main.WINDOW_HEIGHT) {
+                if (x < 0 || x > AircraftWar.WINDOW_WIDTH || y < 0 || y > AircraftWar.WINDOW_HEIGHT) {
                     // 防止超出边界
                     return;
                 }
@@ -39,8 +40,8 @@ public class HeroController {
             }
         };
 
-        game.addMouseListener(mouseAdapter);
-        game.addMouseMotionListener(mouseAdapter);
+        abstractGame.addMouseListener(mouseAdapter);
+        abstractGame.addMouseMotionListener(mouseAdapter);
 
         // 键盘事件监听器
         keyAdapter = new KeyAdapter() {
@@ -66,13 +67,13 @@ public class HeroController {
             }
         };
 
-        game.addKeyListener(keyAdapter);
-        game.setFocusable(true); // 确保游戏窗口能够接收键盘事件
+        abstractGame.addKeyListener(keyAdapter);
+        abstractGame.setFocusable(true); // 确保游戏窗口能够接收键盘事件
     }
 
     // 移动HeroAircraft，并检查边界
     private void moveHeroAircraft(int x, int y) {
-        if (x < 0 || x > Main.WINDOW_WIDTH || y < 0 || y > Main.WINDOW_HEIGHT) {
+        if (x < 0 || x > AircraftWar.WINDOW_WIDTH || y < 0 || y > AircraftWar.WINDOW_HEIGHT) {
             // 防止超出边界
             return;
         }

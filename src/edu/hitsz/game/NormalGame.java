@@ -2,9 +2,9 @@ package edu.hitsz.game;
 
 import edu.hitsz.application.ImageManager;
 
-public class EasyGame extends AbstractGame {
-    public EasyGame() {
+public class NormalGame extends AbstractGame {
+    public NormalGame() {
         super();
-        this.bg = ImageManager.BACKGROUND_IMAGE2;
+        this.bg = ImageManager.BACKGROUND_IMAGE4;
     }
 }
