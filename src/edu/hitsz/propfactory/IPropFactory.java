@@ -1,7 +1,7 @@
-package edu.hitsz.propfactory;
+package game.propfactory;
 
 
-import edu.hitsz.prop.BaseProp;
+import game.prop.BaseProp;
 
 public interface IPropFactory {
     public BaseProp createProp(int locationX, int locationY, int speedX, int speedY, int score, int dura, int level);

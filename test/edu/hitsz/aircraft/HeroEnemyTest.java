@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class HeroAircraftTest {
+class HeroEnemyTest {
 
     static HeroAircraft heroAircraft;
     static List<BaseBullet> heroBullets;
@@ -56,21 +56,6 @@ class HeroAircraftTest {
         heroAircraft.addHp(-10);
         int size2 = heroAircraft.getHp();
         assert size2 == 1000 - 10;
-    }
-
-    @Test
-    void addShootNum() {
-        try {
-            Field shootNumField = HeroAircraft.class.getDeclaredField("shootNum");
-            shootNumField.setAccessible(true);  // 允许访问私有字段
-            int size1 = (Integer) shootNumField.get(heroAircraft);  // 获取修改前的shootNum值
-            heroAircraft.addShootNum(3);  // 增加shootNum的值
-            int size2 = (Integer) shootNumField.get(heroAircraft);  // 获取修改后的shootNum值
-
-            assertEquals(3, size2 - size1);  // 断言shootNum是否正确增加了3
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            fail("Reflection error: " + e.getMessage());
-        }
     }
 
     @Test

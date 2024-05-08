@@ -1,13 +1,12 @@
-package edu.hitsz.prop;
+package game.prop;
 
-import edu.hitsz.aircraft.HeroAircraft;
-import edu.hitsz.application.Main;
-import edu.hitsz.basic.AbstractFlyingObject;
+import game.aircraft.HeroAircraft;
+import game.application.Main;
+import game.basic.AbstractFlyingObject;
 
 public abstract class BaseProp  extends AbstractFlyingObject {
 
     public abstract void effect(HeroAircraft h);
-
 
     protected int score;
 

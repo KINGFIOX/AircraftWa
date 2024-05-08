@@ -1,7 +1,7 @@
-package edu.hitsz.bullet;
+package game.bullet;
 
-import edu.hitsz.application.Main;
-import edu.hitsz.basic.AbstractFlyingObject;
+import game.application.Main;
+import game.basic.AbstractFlyingObject;
 
 /**
  * 子弹类。

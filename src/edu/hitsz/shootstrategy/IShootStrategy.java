@@ -1,6 +1,6 @@
-package edu.hitsz.shootstrategy;
+package game.shootstrategy;
 
-import edu.hitsz.bullet.BaseBullet;
+import game.bullet.BaseBullet;
 
 import java.util.List;
 

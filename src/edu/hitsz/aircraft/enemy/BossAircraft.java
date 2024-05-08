@@ -1,12 +1,10 @@
-package edu.hitsz.aircraft.enemy;
+package game.aircraft.enemy;
 
-import edu.hitsz.application.Main;
-import edu.hitsz.bullet.BaseBullet;
-import edu.hitsz.bullet.EnemyBullet;
-import edu.hitsz.prop.BaseProp;
-import edu.hitsz.propfactory.PropGenerator;
-import edu.hitsz.shootstrategy.CircleShootStrategy;
-import edu.hitsz.shootstrategy.StraightShootStrategy;
+import game.application.Main;
+import game.bullet.BaseBullet;
+import game.prop.BaseProp;
+import game.propfactory.PropGenerator;
+import game.shootstrategy.CircleShootStrategy;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +18,9 @@ public class BossAircraft extends EnemyAircraft {
 
     @Override
     public List<BaseProp> award() {
+
+        // FIXME 奖励的时候，关闭 boss 的音乐，不知道这样行不行，感觉不符合逻辑
+
         List<BaseProp> res = new LinkedList<>();
         BaseProp p;
         for (int i = 0; i < 3; i++) {

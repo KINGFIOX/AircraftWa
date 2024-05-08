@@ -1,8 +1,8 @@
-package edu.hitsz.aircraft;
+package game.aircraft;
 
-import edu.hitsz.bullet.BaseBullet;
-import edu.hitsz.basic.AbstractFlyingObject;
-import edu.hitsz.shootstrategy.IShootStrategy;
+import game.bullet.BaseBullet;
+import game.basic.AbstractFlyingObject;
+import game.shootstrategy.IShootStrategy;
 
 import java.util.List;
 

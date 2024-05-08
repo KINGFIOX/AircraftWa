@@ -1,7 +1,12 @@
 package edu.hitsz.application;
 
+import config.CONFIG;
+import edu.hitsz.DataIO.IRankList;
+import edu.hitsz.DataIO.TreeMapRankList;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * 程序入口
@@ -10,8 +15,8 @@ import java.awt.*;
  */
 public class Main {
 
-    public static final int WINDOW_WIDTH = 512;
-    public static final int WINDOW_HEIGHT = 768;
+    public static final int WINDOW_WIDTH = CONFIG.Windows.WINDOW_WIDTH;
+    public static final int WINDOW_HEIGHT = CONFIG.Windows.WINDOW_HEIGHT;
 
     public static void main(String[] args) {
 
@@ -35,5 +40,16 @@ public class Main {
 
         // 游戏的逻辑
         game.action();
+
+        // TODO 显示排行榜 ？
+        IRankList scoreboard = new TreeMapRankList();
+        try {
+            scoreboard.load("data/ScoreBoard.csv");
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+//        ScoreBoardSJPanel sbp = new ScoreBoardSJPanel(scoreboard);
+//        frame.setContentPane(sbp);
+//        frame.revalidate();
     }
 }

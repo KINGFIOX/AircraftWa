@@ -1,6 +1,7 @@
-package edu.hitsz.prop;
+package game.prop;
 
-import edu.hitsz.aircraft.HeroAircraft;
+import game.aircraft.HeroAircraft;
+import game.aircraft.bgm.WaveManager;
 
 
 public class BombProp extends BaseProp {
@@ -10,6 +11,9 @@ public class BombProp extends BaseProp {
 
     @Override
     public void effect(HeroAircraft h) {
+        // 音乐
+        WaveManager.getInstance().playMusic("bomb_explosion");
+
         System.out.println("BombSupply active!");
     }
 

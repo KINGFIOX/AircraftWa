@@ -1,7 +1,7 @@
-package edu.hitsz.propfactory;
+package game.propfactory;
 
-import edu.hitsz.prop.BaseProp;
-import edu.hitsz.prop.BloodProp;
+import game.prop.BaseProp;
+import game.prop.BloodProp;
 
 public class BloodPropFactory implements IPropFactory {
     @Override

@@ -1,14 +1,12 @@
-package edu.hitsz.aircraft;
+package game.aircraft;
 
-import edu.hitsz.application.ImageManager;
-import edu.hitsz.application.Main;
-import edu.hitsz.bullet.BaseBullet;
-import edu.hitsz.bullet.HeroBullet;
-import edu.hitsz.prop.BaseProp;
-import edu.hitsz.shootstrategy.IShootStrategy;
-import edu.hitsz.shootstrategy.StraightShootStrategy;
+import game.application.ImageManager;
+import game.application.Main;
+import game.bullet.BaseBullet;
+import game.prop.BaseProp;
+import game.shootstrategy.IShootStrategy;
+import game.shootstrategy.StraightShootStrategy;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -80,9 +78,20 @@ public class HeroAircraft extends AbstractAircraft {
         return;
     }
 
+    /**
+     * @brief 先获取这个来恢复
+     *
+     * @return
+     */
+    public IShootStrategy getShootStrategy() {
+        return this.shootStrategy;
+    }
+
     public void effect(BaseProp p) {
         p.effect(this);
     }
+
+    /* ---------- ---------- 移动 ----------- ---------- */
 
     @Override
     public void forward() {

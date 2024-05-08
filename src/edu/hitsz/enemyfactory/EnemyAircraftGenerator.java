@@ -1,10 +1,10 @@
-package edu.hitsz.enemyfactory;
+package game.enemyfactory;
 
 import java.util.Random;
 
-import edu.hitsz.application.ImageManager;
-import edu.hitsz.application.Main;
-import edu.hitsz.aircraft.enemy.EnemyAircraft;
+import game.application.ImageManager;
+import game.application.Main;
+import game.aircraft.enemy.EnemyAircraft;
 
 public class EnemyAircraftGenerator {
 

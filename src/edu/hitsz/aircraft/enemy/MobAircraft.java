@@ -1,9 +1,8 @@
-package edu.hitsz.aircraft.enemy;
+package game.aircraft.enemy;
 
-import edu.hitsz.application.Main;
-import edu.hitsz.bullet.BaseBullet;
-import edu.hitsz.prop.BaseProp;
-import edu.hitsz.propfactory.PropGenerator;
+import game.application.Main;
+import game.bullet.BaseBullet;
+import game.prop.BaseProp;
 
 import java.util.LinkedList;
 import java.util.List;

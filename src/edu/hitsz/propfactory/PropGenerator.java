@@ -1,6 +1,6 @@
-package edu.hitsz.propfactory;
+package game.propfactory;
 
-import edu.hitsz.prop.BaseProp;
+import game.prop.BaseProp;
 
 import java.util.Random;
 

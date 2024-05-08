@@ -1,4 +1,4 @@
-package edu.hitsz.bullet;
+package game.bullet;
 
 /**
  * @Author hitsz

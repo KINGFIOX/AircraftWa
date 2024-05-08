@@ -1,18 +1,23 @@
-package edu.hitsz.application;
+package edu.hitsz.GAME;
 
+import UI.Main;
+import config.CONFIG;
 import edu.hitsz.aircraft.*;
-import edu.hitsz.aircraft.DataIO.Entry;
-import edu.hitsz.aircraft.DataIO.IRankList;
-import edu.hitsz.aircraft.DataIO.TreeMapRankList;
+import edu.hitsz.DataIO.Entry;
+import edu.hitsz.DataIO.IRankList;
+import edu.hitsz.DataIO.TreeMapRankList;
+import edu.hitsz.application.HeroController;
+import edu.hitsz.application.ImageManager;
+import edu.hitsz.bgm.WaveManager;
 import edu.hitsz.aircraft.enemy.BossAircraft;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
 import edu.hitsz.aircraft.enemy.EnemyAircraft;
 import edu.hitsz.enemyfactory.BossEnemyFactory;
 import edu.hitsz.enemyfactory.EnemyAircraftGenerator;
-
 import edu.hitsz.enemyfactory.IEnemyAircraftFactory;
 import edu.hitsz.prop.BaseProp;
+
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
@@ -40,7 +45,7 @@ public class Game extends JPanel {
     /**
      * 时间间隔(ms)，控制刷新频率
      */
-    private int timeInterval = 40;
+    private int timeInterval = CONFIG.Game.TIME_INTERVAL;
 
     private final HeroAircraft heroAircraft;
     private final List<EnemyAircraft> enemyAircrafts;
@@ -51,7 +56,7 @@ public class Game extends JPanel {
     /**
      * 屏幕中出现的敌机最大数量
      */
-    private int enemyMaxNumber = 5;
+    private int enemyMaxNumber = CONFIG.Game.ENEMY_MAX_NUMBER;
 
     /**
      * 得分排行榜
@@ -71,7 +76,7 @@ public class Game extends JPanel {
      * 周期（ms)
      * 指示子弹的发射、敌机的产生频率
      */
-    private int cycleDuration = 600;
+    private int cycleDuration = CONFIG.Game.CYCLE_DURATION;
     private int cycleTime = 0;
 
     /**
@@ -110,6 +115,9 @@ public class Game extends JPanel {
 
     }
 
+    /**
+     * 这里是 boss
+     */
     private static IEnemyAircraftFactory bossFactory = new BossEnemyFactory();
     private static Random random = new Random();
     private static int lastBossScore = 0;
@@ -138,14 +146,17 @@ public class Game extends JPanel {
                     enemyAircrafts.add(EnemyAircraftGenerator.generateEnemy());
                 }
 
-                if (score - lastBossScore >= 1000) {
+                if (score - lastBossScore >= CONFIG.Game.BOSS_EVERY_SCORE) {
+                    // 保证战场上只有一个 boss
                     boolean existed = enemyAircrafts.stream().anyMatch(x -> (x instanceof BossAircraft));
                     if (!existed) {
-                        int locationX = (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())); // 假设游戏宽度为300
-                        int locationY = (int) (Math.random() * Main.WINDOW_HEIGHT * 0.05);
+                        int locationX = (int) (Math.random() * (CONFIG.Windows.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())); // 假设游戏宽度为300
+                        int locationY = (int) (Math.random() * CONFIG.Windows.WINDOW_HEIGHT * 0.05);
                         int speedX = random.nextInt(4) - 2;  // 假设速度在 (0, 4) - 2 之间
                         int speedY = random.nextInt(10) + 5; // 假设速度在5到14之间
                         enemyAircrafts.add(bossFactory.createEnemyAircraft(locationX, locationY, speedX >> 2, speedY >> 2, 500, 100));
+                        // 播放音频
+                        WaveManager.getInstance().playMusic("bgm_boss");
                         lastBossScore = score;
                     }
                 }
@@ -173,7 +184,7 @@ public class Game extends JPanel {
 
             // 游戏结束检查英雄机是否存活
             if (heroAircraft.getHp() <= 0) {
-                // 游戏结束
+                // FIXME 游戏结束
                 this.executorService.shutdown();
                 gameOverFlag = true;
                 System.out.println("Game Over!");
@@ -182,8 +193,27 @@ public class Game extends JPanel {
                     scoreboard.store("data/ScoreBoard.csv");
                 } catch (IOException e) {
                     // TODO
+                    e.printStackTrace();
                 }
-                scoreboard.printEntries();
+
+                // 关闭 bgm
+                if (WaveManager.getInstance().isPlaying("bgm_boss")) {
+                    WaveManager.getInstance().stopMusic("bgm_boss");
+                }
+                if (WaveManager.getInstance().isPlaying("bgm")) {
+                    WaveManager.getInstance().stopMusic("bgm");
+                }
+
+
+                WaveManager.getInstance().playMusic("game_over");
+                SwingUtilities.invokeLater(() -> {
+//                    Main.cardPanel.add();
+                    // 切换到 SimpleTable 面板
+                    SwingUtilities.invokeLater(() -> {
+                        Main.cardLayout.show(Main.cardPanel, "scoreBoard menu");
+                    });
+                });
+
 
             }
 
@@ -194,6 +224,7 @@ public class Game extends JPanel {
          * 本次任务执行完成后，需要延迟设定的延迟时间，才会执行新的任务
          */
         this.executorService.scheduleWithFixedDelay(task, timeInterval, timeInterval, TimeUnit.MILLISECONDS);
+
 
     }
 
@@ -287,9 +318,16 @@ public class Game extends JPanel {
                     // 敌机损失一定生命值
                     enemyAircraft.decreaseHp(bullet.getPower());
                     bullet.vanish();
+                    // 音乐
+                    WaveManager.getInstance().playMusic("bullet_hit");
 
                     if (enemyAircraft.notValid()) { // 敌人的飞机被击毁
                         score += enemyAircraft.getScore();
+
+                        if (enemyAircraft instanceof BossAircraft) {
+                            // 关闭音乐
+                            WaveManager.getInstance().stopMusic("bgm_boss");
+                        }
 
                         // 听说你喜欢奖励
                         List<BaseProp> p = enemyAircraft.award();
@@ -348,11 +386,11 @@ public class Game extends JPanel {
         super.paint(g);
 
         // 绘制背景,图片滚动
-        g.drawImage(ImageManager.BACKGROUND_IMAGE, 0, this.backGroundTop - Main.WINDOW_HEIGHT, null);
+        g.drawImage(ImageManager.BACKGROUND_IMAGE, 0, this.backGroundTop - CONFIG.Windows.WINDOW_HEIGHT, null);
         g.drawImage(ImageManager.BACKGROUND_IMAGE, 0, this.backGroundTop, null);
         // 循环滚动图片
         this.backGroundTop += 1;
-        if (this.backGroundTop == Main.WINDOW_HEIGHT) {
+        if (this.backGroundTop == CONFIG.Windows.WINDOW_HEIGHT) {
             this.backGroundTop = 0;
         }
 

@@ -1,9 +1,9 @@
-package edu.hitsz.basic;
+package game.basic;
 
-import edu.hitsz.aircraft.AbstractAircraft;
-import edu.hitsz.application.ImageManager;
-import edu.hitsz.application.Main;
-import edu.hitsz.prop.BaseProp;
+import game.aircraft.AbstractAircraft;
+import game.application.ImageManager;
+import game.application.Main;
+import game.prop.BaseProp;
 
 import java.awt.image.BufferedImage;
 
