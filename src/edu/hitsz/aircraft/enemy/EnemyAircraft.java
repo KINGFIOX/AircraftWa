@@ -1,6 +1,6 @@
 package edu.hitsz.aircraft.enemy;
 
-import config.CONFIG;
+import edu.hitsz.application.CONFIG;
 import edu.hitsz.aircraft.AbstractAircraft;
 import edu.hitsz.application.AircraftWar;
 import edu.hitsz.bullet.BaseBullet;

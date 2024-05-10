@@ -1,9 +1,9 @@
 package edu.hitsz.aircraft.enemy;
 
-import config.CONFIG;
+import edu.hitsz.application.CONFIG;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.prop.BaseProp;
-import edu.hitsz.propfactory.PropGenerator;
+import edu.hitsz.observe.PropGenerator;
 import edu.hitsz.shootstrategy.StraightShootStrategy;
 
 import java.util.LinkedList;
@@ -38,7 +38,7 @@ public class EliteAircraft extends EnemyAircraft {
     @Override
     public List<BaseProp> award() {
         List<BaseProp> res = new LinkedList<>();
-        BaseProp p = PropGenerator.generateProp(this.locationX, this.locationY);
+        BaseProp p = PropGenerator.getInstace().generateProp(this.locationX, this.locationY);
         if (p != null) {
             res.add(p);
         }

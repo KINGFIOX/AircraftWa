@@ -11,6 +11,12 @@ public class TreeMapRankList implements IRankList {
         this.map = new TreeMap<>(Collections.reverseOrder());
     }
 
+    /**
+     * @brief 其实这个在 load 的过程也在排序
+     *
+     * @param path
+     * @throws IOException
+     */
     @Override
     public void load(String path) throws IOException {
         File file = new File(path);

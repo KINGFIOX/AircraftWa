@@ -22,6 +22,7 @@ public class BulletPlusProp extends BaseBulletProp {
 
         IShootStrategy origin = new StraightShootStrategy();
 
+        // 这里不会生效
         r = () -> {
             h.changeShootStrategy(new CircleShootStrategy());
             // 休眠 5s
@@ -39,6 +40,7 @@ public class BulletPlusProp extends BaseBulletProp {
         };
 
         // 清除现有的效果
+        // 短路
         if (BaseBulletProp.running != null && BaseBulletProp.running.isAlive()) {
             BaseBulletProp.running.interrupt();
         }

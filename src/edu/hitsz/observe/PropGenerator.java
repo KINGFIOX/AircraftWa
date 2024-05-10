@@ -1,11 +1,33 @@
-package edu.hitsz.propfactory;
+package edu.hitsz.observe;
 
-import config.CONFIG;
+import edu.hitsz.application.CONFIG;
+import edu.hitsz.aircraft.HeroAircraft;
 import edu.hitsz.prop.BaseProp;
+import edu.hitsz.propfactory.*;
 
 import java.util.Random;
 
 public class PropGenerator {
+
+    private static PropGenerator m_instance;
+
+    private PropGenerator() {}
+
+    public static PropGenerator getInstace() {
+        // 第一次检查，避免不必要的同步
+        if (m_instance == null) {
+            // 同步块，对类对象加锁
+            synchronized (HeroAircraft.class) {
+                // 第二次检查，防止多线程问题
+                if (m_instance == null) {
+                    m_instance = new PropGenerator();
+                    System.out.println("m_instance created: " + m_instance);
+                }
+            }
+        }
+        return m_instance;
+    }
+
 
     private static final IPropFactory bloodFactory = new BloodPropFactory();
     private static final IPropFactory bombFactory = new BombPropFactory();
@@ -15,7 +37,7 @@ public class PropGenerator {
     // 用来获取整数的
     private static final Random random = new Random();
 
-    public static BaseProp generateProp(int locationX, int locationY) {
+    public BaseProp generateProp(int locationX, int locationY) {
         // 随机选择敌机类型
         EPropType type = EPropType.values()[random.nextInt(EPropType.values().length)];
 

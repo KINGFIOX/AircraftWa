@@ -1,4 +1,4 @@
-package config;
+package edu.hitsz.application;
 
 public class CONFIG {
 

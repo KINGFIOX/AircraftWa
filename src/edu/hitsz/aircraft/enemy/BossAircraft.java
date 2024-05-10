@@ -1,10 +1,10 @@
 package edu.hitsz.aircraft.enemy;
 
-import config.CONFIG;
+import edu.hitsz.application.CONFIG;
 import edu.hitsz.application.AircraftWar;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.prop.BaseProp;
-import edu.hitsz.propfactory.PropGenerator;
+import edu.hitsz.observe.PropGenerator;
 import edu.hitsz.shootstrategy.CircleShootStrategy;
 
 import java.util.LinkedList;
@@ -25,7 +25,7 @@ public class BossAircraft extends EnemyAircraft {
         List<BaseProp> res = new LinkedList<>();
         BaseProp p;
         for (int i = 0; i < CONFIG.Enemy.BOSS_DROP_NUMBER; i++) {
-            p = PropGenerator.generateProp(this.locationX, this.locationY);
+            p = PropGenerator.getInstace().generateProp(this.locationX, this.locationY);
             if (p != null) {
                 res.add(p);
             }

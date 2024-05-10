@@ -1,11 +1,9 @@
 package edu.hitsz.game;
 
 import UI.Main;
-import config.CONFIG;
+import edu.hitsz.application.CONFIG;
 import edu.hitsz.aircraft.*;
 import edu.hitsz.DataIO.Entry;
-import edu.hitsz.DataIO.IRankList;
-import edu.hitsz.DataIO.TreeMapRankList;
 import edu.hitsz.application.HeroController;
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.bgm.WaveManager;
@@ -14,15 +12,18 @@ import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
 import edu.hitsz.aircraft.enemy.EnemyAircraft;
 import edu.hitsz.enemyfactory.BossEnemyFactory;
-import edu.hitsz.enemyfactory.EnemyAircraftGenerator;
 import edu.hitsz.enemyfactory.IEnemyAircraftFactory;
 import edu.hitsz.prop.BaseProp;
+import edu.hitsz.observe.EnemyAircraftGenerator;
 
+import edu.hitsz.observe.ScoreNotifier;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
@@ -48,20 +49,15 @@ public abstract class AbstractGame extends JPanel {
     private int timeInterval = CONFIG.Game.TIME_INTERVAL;
 
     private final HeroAircraft heroAircraft;
-    private final List<EnemyAircraft> enemyAircrafts;
-    private final List<BaseBullet> heroBullets;
-    private final List<BaseBullet> enemyBullets;
-    private final List<BaseProp> props;
+    private final List<EnemyAircraft> enemyAircrafts = new LinkedList<>();
+    private final List<BaseBullet> heroBullets = new LinkedList<>();
+    private final List<BaseBullet> enemyBullets = new LinkedList<>();
+    private final List<BaseProp> props = new LinkedList<>();
 
     /**
      * 屏幕中出现的敌机最大数量
      */
     private int enemyMaxNumber = CONFIG.Game.ENEMY_MAX_NUMBER;
-
-    /**
-     * 得分排行榜
-     */
-    private IRankList scoreboard;
 
     /**
      * 当前得分
@@ -85,6 +81,8 @@ public abstract class AbstractGame extends JPanel {
      */
     private boolean gameOverFlag = false;
 
+    private ScoreNotifier scoreObserver;
+
     /**
      * 构造函数
      */
@@ -92,18 +90,10 @@ public abstract class AbstractGame extends JPanel {
         // 英雄飞机只有一个
         heroAircraft = HeroAircraft.getInstace();
 
-        enemyAircrafts = new LinkedList<>();
-        heroBullets = new LinkedList<>();
-        enemyBullets = new LinkedList<>();
-        props = new LinkedList<>();
+        // 单例模式
+        scoreObserver = ScoreNotifier.getInstace();
 
-        scoreboard = new TreeMapRankList();
-        try {
-            scoreboard.load("data/ScoreBoard.csv");
-        } catch (IOException e) {
-            // TODO 有问题
-            e.printStackTrace();
-        }
+        scoreObserver.addSubscriber(EnemyAircraftGenerator.getInstace());
 
         /**
          * Scheduled 线程池，用于定时任务调度
@@ -147,27 +137,18 @@ public abstract class AbstractGame extends JPanel {
                 if (enemyAircrafts.size() < enemyMaxNumber) {
 
                     // enemyAircrafts.add();
+                    // boss 产生器
+                    genBoss();
 
                     // EnemyAircraftGenerator::generateEnemy();
-                    enemyAircrafts.add(EnemyAircraftGenerator.generateEnemy());
+                    enemyAircrafts.add(EnemyAircraftGenerator.getInstace().generateEnemy());
                 }
 
-                if (score - lastBossScore >= CONFIG.Game.BOSS_EVERY_SCORE) {
-                    // 保证战场上只有一个 boss
-                    boolean existed = enemyAircrafts.stream().anyMatch(x -> (x instanceof BossAircraft));
-                    if (!existed) {
-                        int locationX = (int) (Math.random() * (CONFIG.Windows.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())); // 假设游戏宽度为300
-                        int locationY = (int) (Math.random() * CONFIG.Windows.WINDOW_HEIGHT * 0.05);
-                        int speedX = random.nextInt(4) - 2;  // 假设速度在 (0, 4) - 2 之间
-                        int speedY = random.nextInt(10) + 5; // 假设速度在5到14之间
-                        enemyAircrafts.add(bossFactory.createEnemyAircraft(locationX, locationY, speedX >> 2, speedY >> 2, 500, 100));
-                        // 播放音频
-                        WaveManager.getInstance().playMusic("bgm_boss");
-                        lastBossScore = score;
-                    }
-                }
+                scoreObserver.update(score);
+
                 // 飞机射出子弹
                 shootAction();
+
             }
 
             // 子弹移动
@@ -182,7 +163,7 @@ public abstract class AbstractGame extends JPanel {
             // 撞击检测
             crashCheckAction();
 
-            // 后处理
+            // 后处理，清理战场
             postProcessAction();
 
             // 每个时刻重绘界面
@@ -190,17 +171,24 @@ public abstract class AbstractGame extends JPanel {
 
             // 游戏结束检查英雄机是否存活
             if (heroAircraft.getHp() <= 0) {
+
+                // 悄咪咪的写一条数据
+                File file = new File(CONFIG.Game.DATA_PATH);
+                try (FileWriter fileWriter = new FileWriter(file, true)) {
+                    Entry e = new Entry(score, System.currentTimeMillis());
+                    // 写入新数据并换行
+                    fileWriter.write(e.toString() + System.lineSeparator());
+                    System.out.println("Data has been successfully appended to the file.");
+                } catch (IOException e) {
+                    // 捕获并打印异常
+                    System.err.println("An error occurred while appending data to the file: " + e.getMessage());
+                }
+
+
                 // FIXME 游戏结束
                 this.executorService.shutdown();
                 gameOverFlag = true;
                 System.out.println("Game Over!");
-                scoreboard.addEntry(new Entry(score, System.currentTimeMillis()));
-                try {
-                    scoreboard.store("data/ScoreBoard.csv");
-                } catch (IOException e) {
-                    // TODO
-                    e.printStackTrace();
-                }
 
                 // 关闭 bgm
                 if (WaveManager.getInstance().isPlaying("bgm_boss")) {
@@ -275,6 +263,26 @@ public abstract class AbstractGame extends JPanel {
     private void propMoveAction() {
         for (BaseProp p : props) {
             p.forward();
+        }
+    }
+
+    /**
+     * 这里是同步的 刷新 boss
+     */
+    private void genBoss() {
+        if (score - lastBossScore >= CONFIG.Game.BOSS_EVERY_SCORE) {
+            // 保证战场上只有一个 boss
+            boolean existed = enemyAircrafts.stream().anyMatch(x -> (x instanceof BossAircraft));
+            if (!existed) {
+                int locationX = (int) (Math.random() * (CONFIG.Windows.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())); // 假设游戏宽度为300
+                int locationY = (int) (Math.random() * CONFIG.Windows.WINDOW_HEIGHT * 0.05);
+                int speedX = random.nextInt(4) - 2;  // 假设速度在 (0, 4) - 2 之间
+                int speedY = random.nextInt(10) + 5; // 假设速度在5到14之间
+                enemyAircrafts.add(bossFactory.createEnemyAircraft(locationX, locationY, speedX >> 2, speedY >> 2, 500, 100));
+                // 播放音频
+                WaveManager.getInstance().playMusic("bgm_boss");
+                lastBossScore = score;
+            }
         }
     }
 
