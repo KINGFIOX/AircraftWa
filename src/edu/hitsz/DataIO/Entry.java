@@ -12,6 +12,6 @@ public class Entry {
     // 提供一个打印方法方便输出
     @Override
     public String toString() {
-        return "Score: " + score + ", Time: " + time;
+        return score + "," + time;
     }
 }

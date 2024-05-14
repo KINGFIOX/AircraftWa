@@ -5,38 +5,38 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.LineUnavailableException;
 
-public class MusicThread extends Thread {
+public class MusicPlayer implements Runnable {
 
-    // Audio file name and other member variables
     private String filename;
     private AudioFormat audioFormat;
     private byte[] samples;
     private boolean loop;
     private volatile boolean stopRequested;
+    private ExecutorService executor;
 
-    public MusicThread(String filename, boolean loop) {
-        // Initialize filename and loop flag
+    public MusicPlayer(String filename, boolean loop) {
         this.filename = filename;
         this.loop = loop;
         this.stopRequested = false;
-        reverseMusic();
+        //
+        this.executor = Executors.newSingleThreadExecutor();
+        loadMusic();
     }
 
-    // Load the audio data into memory
-    public void reverseMusic() {
+    private void loadMusic() {
         try {
-            // Use AudioInputStream to receive audio data from the specified file
             AudioInputStream stream = AudioSystem.getAudioInputStream(new File(filename));
-            // Get the audio format from the AudioInputStream
             audioFormat = stream.getFormat();
             samples = getSamples(stream);
         } catch (UnsupportedAudioFileException | IOException e) {
@@ -44,8 +44,7 @@ public class MusicThread extends Thread {
         }
     }
 
-    // Read samples from the audio input stream
-    public byte[] getSamples(AudioInputStream stream) {
+    private byte[] getSamples(AudioInputStream stream) {
         int size = (int) (stream.getFrameLength() * audioFormat.getFrameSize());
         byte[] samples = new byte[size];
         DataInputStream dataInputStream = new DataInputStream(stream);
@@ -57,8 +56,7 @@ public class MusicThread extends Thread {
         return samples;
     }
 
-    // Play the audio stream with loop and stop support
-    public void play(InputStream source) {
+    private void play(InputStream source) {
         int bufferSize = (int) (audioFormat.getFrameSize() * audioFormat.getSampleRate());
         byte[] buffer = new byte[bufferSize];
         SourceDataLine dataLine = null;
@@ -74,19 +72,14 @@ public class MusicThread extends Thread {
         }
 
         dataLine.start();
-//        System.out.println("Audio playback started");
 
         try {
             while (!stopRequested) {
                 int numBytesRead;
-                // Reset the stream if looping
                 source.reset();
-                // Inner loop to read and write audio data
                 while ((numBytesRead = source.read(buffer, 0, buffer.length)) != -1 && !stopRequested) {
                     dataLine.write(buffer, 0, numBytesRead);
-//                    System.out.println("Playing audio data...");
                 }
-                // Break if looping isn't required
                 if (!loop) {
                     break;
                 }
@@ -94,7 +87,6 @@ public class MusicThread extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            // Always close the data line gracefully
             dataLine.drain();
             dataLine.stop();
             dataLine.close();
@@ -102,21 +94,23 @@ public class MusicThread extends Thread {
         }
     }
 
-    // Method to request stopping the music
     public void stopMusic() {
         stopRequested = true;
+        executor.shutdownNow(); // Attempts to stop all actively executing tasks
     }
 
     @Override
     public void run() {
         InputStream stream = new ByteArrayInputStream(samples);
         try {
-            // Mark the stream for resetting when looping
             stream.mark(samples.length);
         } catch (Exception e) {
             e.printStackTrace();
         }
         play(stream);
-//        System.out.println("end void run()");
+    }
+
+    public void startMusic() {
+        executor.execute(this);
     }
 }
