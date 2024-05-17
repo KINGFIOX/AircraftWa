@@ -1,8 +1,8 @@
 package edu.hitsz.prop;
 
 import edu.hitsz.aircraft.HeroAircraft;
-import edu.hitsz.application.AircraftWar;
 import edu.hitsz.basic.AbstractFlyingObject;
+import edu.hitsz.config.CONFIG;
 
 public abstract class BaseProp  extends AbstractFlyingObject {
 
@@ -41,7 +41,7 @@ public abstract class BaseProp  extends AbstractFlyingObject {
         super.forward();
 
         // 判定 y 轴出界
-        if (speedY > 0 && locationY >= AircraftWar.WINDOW_HEIGHT ) {
+        if (speedY > 0 && locationY >= CONFIG.Windows.WINDOW_HEIGHT ) {
             // 向下飞行出界
             vanish();
         }else if (locationY <= 0){

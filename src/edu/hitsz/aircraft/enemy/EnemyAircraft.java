@@ -2,7 +2,6 @@ package edu.hitsz.aircraft.enemy;
 
 import edu.hitsz.config.CONFIG;
 import edu.hitsz.aircraft.AbstractAircraft;
-import edu.hitsz.application.AircraftWar;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.observe.PropGenerator;
 import edu.hitsz.prop.BaseProp;
@@ -63,7 +62,7 @@ public abstract class EnemyAircraft extends AbstractAircraft implements IBombScr
     public void forward() {
         super.forward(); // 调用 AbstractFlyingObject 的 forward
         // 判定 y 轴向下飞行出界
-        if (locationY >= AircraftWar.WINDOW_HEIGHT) {
+        if (locationY >= CONFIG.Windows.WINDOW_HEIGHT) {
             vanish();
         }
     }

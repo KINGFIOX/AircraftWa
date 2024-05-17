@@ -1,8 +1,6 @@
 package edu.hitsz.aircraft;
 
 import edu.hitsz.config.CONFIG;
-import edu.hitsz.application.AircraftWar;
-import edu.hitsz.application.ImageManager;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.prop.BaseProp;
 import edu.hitsz.shootstrategy.IShootStrategy;

@@ -1,7 +1,7 @@
 package edu.hitsz.aircraft.enemy;
 
-import edu.hitsz.application.AircraftWar;
 import edu.hitsz.bullet.BaseBullet;
+import edu.hitsz.config.CONFIG;
 import edu.hitsz.observe.PropGenerator;
 import edu.hitsz.prop.BaseProp;
 
@@ -24,7 +24,7 @@ public class MobAircraft extends EnemyAircraft {
     public void forward() {
         super.forward();
         // 判定 y 轴向下飞行出界
-        if (locationY >= AircraftWar.WINDOW_HEIGHT) {
+        if (locationY >= CONFIG.Windows.WINDOW_HEIGHT) {
             vanish();
         }
     }

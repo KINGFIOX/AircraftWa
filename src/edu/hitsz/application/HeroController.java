@@ -1,5 +1,6 @@
 package edu.hitsz.application;
 
+import edu.hitsz.config.CONFIG;
 import edu.hitsz.game.AbstractGame;
 import edu.hitsz.aircraft.HeroAircraft;
 
@@ -32,7 +33,7 @@ public class HeroController {
                 super.mouseDragged(e);
                 int x = e.getX();
                 int y = e.getY();
-                if (x < 0 || x > AircraftWar.WINDOW_WIDTH || y < 0 || y > AircraftWar.WINDOW_HEIGHT) {
+                if (x < 0 || x > CONFIG.Windows.WINDOW_WIDTH || y < 0 || y > CONFIG.Windows.WINDOW_HEIGHT) {
                     // 防止超出边界
                     return;
                 }
@@ -74,7 +75,7 @@ public class HeroController {
 
     // 移动HeroAircraft，并检查边界
     private void moveHeroAircraft(int x, int y) {
-        if (x < 0 || x > AircraftWar.WINDOW_WIDTH || y < 0 || y > AircraftWar.WINDOW_HEIGHT) {
+        if (x < 0 || x > CONFIG.Windows.WINDOW_WIDTH || y < 0 || y > CONFIG.Windows.WINDOW_HEIGHT) {
             // 防止超出边界
             return;
         }

@@ -1,7 +1,6 @@
 package edu.hitsz.aircraft.enemy;
 
 import edu.hitsz.config.CONFIG;
-import edu.hitsz.application.AircraftWar;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.prop.BaseProp;
 import edu.hitsz.observe.PropGenerator;
@@ -37,11 +36,11 @@ public class BossAircraft extends EnemyAircraft {
         locationX += speedX;
         locationY += speedY;
 
-        if (locationX <= 0 || locationX >= AircraftWar.WINDOW_WIDTH) {
+        if (locationX <= 0 || locationX >= CONFIG.Windows.WINDOW_WIDTH) {
             // 横向超出边界后反向
             speedX = -speedX;
         }
-        if (locationY <= 0 || locationY >= AircraftWar.WINDOW_HEIGHT / 4) {
+        if (locationY <= 0 || locationY >= CONFIG.Windows.WINDOW_HEIGHT / 4) {
             // 横向超出边界后反向
             speedY = -speedY;
         }
