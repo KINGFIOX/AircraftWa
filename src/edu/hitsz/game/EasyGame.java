@@ -48,10 +48,6 @@ public class EasyGame extends AbstractGame {
 
     }
 
-    @Override
-    protected void initConfig() {
-
-    }
 
     @Override
     protected void initEnemyGen() {
@@ -86,5 +82,28 @@ public class EasyGame extends AbstractGame {
                 dura_bullet_plus,
                 probability_bullet_plus
         );
+    }
+
+    @Override
+    protected void initConfig() {
+
+        /* 随着时间，难度增加 */
+        CONFIG.Enemy.MOB_HP_UPGRADE = 0;
+        CONFIG.Enemy.ELITE_HP_UPGRADE = 0;
+        CONFIG.Enemy.ELITE_PLUS_HP_UPGRADE = 0;
+
+
+        CONFIG.Enemy.BOSS_SHOOT_NUMBER = 10;
+        CONFIG.Enemy.BOSS_EVERY_SCORE = 2000;
+        CONFIG.Enemy.BOSS_DROP_NUMBER = 5;
+
+        CONFIG.Enemy.ENEMY_BULLET_POWER = 10;
+
+        /* 这个一定是这样的 */
+        CONFIG.Game.speedX[0] = -2;
+        CONFIG.Game.speedX[1] = 2;
+        CONFIG.Game.speedY[0] = 5;
+        CONFIG.Game.speedY[1] = 14;
+
     }
 }

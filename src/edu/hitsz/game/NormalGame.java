@@ -29,7 +29,7 @@ public class NormalGame extends AbstractGame {
     @Override
     protected void initHero() {
         int hp = 1000;
-        int shootNum = 10;
+        int shootNum = 8;
         int power = 50;
 
         this.heroAircraft = new HeroAircraft(
@@ -61,12 +61,6 @@ public class NormalGame extends AbstractGame {
     }
 
     @Override
-    protected void initConfig() {
-
-    }
-
-
-    @Override
     protected void initPropGen() {
         int maxScore = 100;
         int dura_bullet = 5;
@@ -89,5 +83,28 @@ public class NormalGame extends AbstractGame {
                 probability_bullet_plus
         );
     }
+
+    @Override
+    protected void initConfig() {
+
+        /* 随着时间，难度增加 */
+        CONFIG.Enemy.MOB_HP_UPGRADE = 5;
+        CONFIG.Enemy.ELITE_HP_UPGRADE = 10;
+        CONFIG.Enemy.ELITE_PLUS_HP_UPGRADE = 15;
+
+        CONFIG.Enemy.BOSS_SHOOT_NUMBER = 20;
+        CONFIG.Enemy.BOSS_EVERY_SCORE = 2000;
+        CONFIG.Enemy.BOSS_DROP_NUMBER = 3;
+
+        CONFIG.Enemy.ENEMY_BULLET_POWER = 10;
+
+
+        /* 这个一定是这样的 */
+        CONFIG.Game.speedX[0] = -2;
+        CONFIG.Game.speedX[1] = 2;
+        CONFIG.Game.speedY[0] = 5;
+        CONFIG.Game.speedY[1] = 14;
+    }
+
 
 }

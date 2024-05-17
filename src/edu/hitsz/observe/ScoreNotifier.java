@@ -18,7 +18,6 @@ public class ScoreNotifier {
     private int lastScore = 0;
 
     public ScoreNotifier() {
-        super();
     }
 
 

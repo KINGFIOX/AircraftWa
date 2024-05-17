@@ -5,7 +5,7 @@ import edu.hitsz.config.CONFIG;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ScoreNotifier {
+public class BossNotifier {
 
     /**
      * 不出现重复订阅者
@@ -17,8 +17,7 @@ public class ScoreNotifier {
 
     private int lastScore = 0;
 
-    public ScoreNotifier() {
-        super();
+    public BossNotifier() {
     }
 
 

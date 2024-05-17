@@ -34,12 +34,12 @@ public class CONFIG {
         /**
          *
          */
-        public static int[] speedX = new int[]{-2, 2};
+        public static int[] speedX = new int[2];
 
         /**
          * FIXME 这里可能会有问题
          */
-        public static int[] speedY = new int[]{5, 14};
+        public static int[] speedY = new int[2];
 
     }
 
@@ -60,12 +60,12 @@ public class CONFIG {
         /**
          * boss 掉落的物品数量
          */
-        public static final int BOSS_DROP_NUMBER = 3;
+        public static int BOSS_DROP_NUMBER = 3;
 
         /**
          * boss 一次发送多少子弹
          */
-        public static final int BOSS_SHOOT_NUMBER = 20;
+        public static int BOSS_SHOOT_NUMBER = 20;
 
         /**
          *
@@ -80,12 +80,18 @@ public class CONFIG {
         /**
          *
          */
-        public static final int ENEMY_BULLET_POWER = 10; // FIXME CONFIG
+        public static int ENEMY_BULLET_POWER = 10;
 
         /**
          * 每多少分生成一次 boss
          */
-        public static final int BOSS_EVERY_SCORE = 1000;
+        public static int BOSS_EVERY_SCORE = 1000;
+
+        public static int MOB_HP_UPGRADE = 10;
+        public static int ELITE_HP_UPGRADE = 20;
+        public static int ELITE_PLUS_HP_UPGRADE = 30;
+
+        public static int BOSS_PLUS_HP_UPGRADE = 30;
 
 
     }

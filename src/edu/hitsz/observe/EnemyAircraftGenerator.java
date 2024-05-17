@@ -38,7 +38,9 @@ public class EnemyAircraftGenerator implements ISubscriber {
     @Override
     public void takeNotify() {
         // TODO
-        mob_hp += 10;
+        mob_hp += CONFIG.Enemy.MOB_HP_UPGRADE;
+        elite_hp += CONFIG.Enemy.ELITE_HP_UPGRADE;
+        elite_plus_hp += CONFIG.Enemy.ELITE_PLUS_HP_UPGRADE;
         System.out.println("mob hp += 10");
     }
 
