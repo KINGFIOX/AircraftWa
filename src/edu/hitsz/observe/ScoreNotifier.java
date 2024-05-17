@@ -10,7 +10,7 @@ public class ScoreNotifier {
     /**
      * 不出现重复订阅者
      */
-    private Set<ISubscriber> m_subers = new HashSet<>();
+    private final Set<ISubscriber> m_subers = new HashSet<>();
 
 
     private int score = 0;

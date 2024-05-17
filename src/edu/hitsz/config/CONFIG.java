@@ -4,7 +4,7 @@ public class CONFIG {
 
     // final 是设置 不可变 变量
 
-    public class Game {
+    public static class Game {
         /**
          * 时间间隔(ms)，控制刷新频率
          */
@@ -26,11 +26,6 @@ public class CONFIG {
         public static final int BOSS_EVERY_SCORE = 1000;
 
         /**
-         * 英雄飞机血量
-         */
-        public static final int HERO_HP = 1000;
-
-        /**
          * 这种速度啥的
          */
         public static final int HERO_BULLET_SPEED = 10;
@@ -40,9 +35,19 @@ public class CONFIG {
          */
         public static final String DATA_PATH = "data/ScoreBoard.csv";
 
+        /**
+         *
+         */
+        public static int[] speedX = { -2, 2 };
+
+        /**
+         *
+         */
+        public static int[] speedY = { 5, 14 };
+
     }
 
-    public class Windows {
+    public static class Windows {
         /**
          *
          */
@@ -54,7 +59,7 @@ public class CONFIG {
         public static final int WINDOW_HEIGHT = 768;
     }
 
-    public class Enemy {
+    public static class Enemy {
 
         /**
          * boss 掉落的物品数量
@@ -65,7 +70,6 @@ public class CONFIG {
          * boss 一次发送多少子弹
          */
         public static final int BOSS_SHOOT_NUMBER = 20;
-
 
         /**
          *
@@ -81,7 +85,6 @@ public class CONFIG {
          *
          */
         public static final int ENEMY_BULLET_POWER = 10; // FIXME CONFIG
-
 
     }
 

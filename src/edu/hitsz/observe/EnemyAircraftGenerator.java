@@ -9,19 +9,35 @@ import edu.hitsz.enemyfactory.*;
 
 public class EnemyAircraftGenerator implements ISubscriber {
 
+    // 可能随着时间改变
     private int mob_hp;
     private int elite_hp;
     private int elite_plus_hp;
 
-    public EnemyAircraftGenerator(int mob_hp, int elite_hp, int elite_plus_hp) {
+    private final int maxScore_mob;
+    private final int maxScore_elite;
+    private final int maxScore_elite_plus;
+
+    public EnemyAircraftGenerator(
+            int mob_hp,
+            int maxScore_mob,
+            int elite_hp,
+            int maxScore_elite,
+            int elite_plus_hp,
+            int maxScore_elite_plus
+    ) {
         this.mob_hp = mob_hp;
         this.elite_hp = elite_hp;
         this.elite_plus_hp = elite_plus_hp;
+        this.maxScore_mob = maxScore_mob;
+        this.maxScore_elite = maxScore_elite;
+        this.maxScore_elite_plus = maxScore_elite_plus;
     }
 
 
     @Override
     public void takeNotify() {
+        // TODO
         mob_hp += 10;
         System.out.println("mob hp += 10");
     }
@@ -37,24 +53,23 @@ public class EnemyAircraftGenerator implements ISubscriber {
         // 敌机的初始位置和属性，这里仅为示例，实际可能需要更合理的生成逻辑
         int locationX = (int) (Math.random() * (CONFIG.Windows.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())); // 假设游戏宽度为300
         int locationY = (int) (Math.random() * CONFIG.Windows.WINDOW_HEIGHT * 0.05);
-        int speedX = RANDOM.getRandom(-2, 2);  // 假设速度在 [-2, 2] 之间
-        int speedY = RANDOM.getRandom(5, 14); // 假设速度在5到14之间
-        int hp = 100; // 基础生命值，实际中可能根据敌机类型不同而不同
+        int speedX = RANDOM.getRandom(CONFIG.Game.speedX);  // 假设速度在 [-2, 2] 之间
+        int speedY = RANDOM.getRandom(CONFIG.Game.speedY); // 假设速度在5到14之间
 
         // 根据敌机类型通过对应工厂创建实例
-        switch (type) {
-            case MOB:
-                return mobFactory.createEnemyAircraft(locationX, locationY, 0, 10, mob_hp, 10);
+        return switch (type) {
+            case MOB ->
+                    mobFactory.createEnemyAircraft(locationX, locationY, 0, speedY, mob_hp, RANDOM.getRandom(maxScore_mob));
             //                return mobFactory.createEnemyAircraft(locationX, locationY, speedX, speedY, hp);
-            case ELITE:
+            case ELITE ->
                 //                hp = 100; // 假设精英敌机有更高的生命值
-                return eliteFactory.createEnemyAircraft(locationX, locationY, speedX, 5, elite_hp, 30);
-            case ELITEPLUS:
-                return elitePlusFactory.createEnemyAircraft(locationX, locationY, speedX, 5, elite_plus_hp, 30);
-            default:
+                    eliteFactory.createEnemyAircraft(locationX, locationY, speedX, speedY, elite_hp, RANDOM.getRandom(maxScore_elite));
+            case ELITEPLUS ->
+                    elitePlusFactory.createEnemyAircraft(locationX, locationY, speedX, speedY, elite_plus_hp, RANDOM.getRandom(maxScore_elite_plus));
+            default ->
                 // 暂时默认生成
-                return mobFactory.createEnemyAircraft(locationX, locationY, 0, 10, mob_hp, 10);
+                    mobFactory.createEnemyAircraft(locationX, locationY, 0, speedY, mob_hp, RANDOM.getRandom(maxScore_elite_plus));
             //                throw new IllegalStateException("Unexpected value: " + type);
-        }
+        };
     }
 }

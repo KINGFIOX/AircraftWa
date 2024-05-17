@@ -17,11 +17,10 @@ import java.awt.event.KeyEvent;
  * @author hitsz
  */
 public class HeroController {
-    private AbstractGame abstractGame;
-    private HeroAircraft heroAircraft;
-    private MouseAdapter mouseAdapter;
-
-    private KeyAdapter keyAdapter; // FIXME
+    private final AbstractGame abstractGame;
+    private final HeroAircraft heroAircraft;
+    private final MouseAdapter mouseAdapter;
+    private final KeyAdapter keyAdapter; // FIXME
 
     public HeroController(AbstractGame abstractGame, HeroAircraft heroAircraft) {
         this.abstractGame = abstractGame;

@@ -92,7 +92,7 @@ public class ScoreBoard {
             for (int row = 0; row < model.getRowCount(); row++) {
                 String first = String.valueOf(model.getValueAt(row, 0));
                 String second = String.valueOf(model.getValueAt(row, 1));
-                if (first.length() > 0 && second.length() > 0) {
+                if (!first.isEmpty() && !second.isEmpty()) {
                     String entry = first + "," + second + "\n";
                     writer.append(entry);
                 }

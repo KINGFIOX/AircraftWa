@@ -56,7 +56,6 @@ public class HeroAircraft extends AbstractAircraft {
     public void changeShootStrategy(IShootStrategy shootStrategy) {
         System.out.println("change shoot strategy");
         this.shootStrategy = shootStrategy;
-        return;
     }
 
     /**

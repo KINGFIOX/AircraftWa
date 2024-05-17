@@ -18,12 +18,13 @@ import javax.sound.sampled.LineUnavailableException;
 
 public class MusicPlayer implements Runnable {
 
-    private String filename;
+    private final String filename;
+    private final boolean loop;
+    private final ExecutorService executor;
+
     private AudioFormat audioFormat;
     private byte[] samples;
-    private boolean loop;
     private volatile boolean stopRequested;
-    private ExecutorService executor;
 
     public MusicPlayer(String filename, boolean loop) {
         this.filename = filename;
@@ -59,7 +60,7 @@ public class MusicPlayer implements Runnable {
     private void play(InputStream source) {
         int bufferSize = (int) (audioFormat.getFrameSize() * audioFormat.getSampleRate());
         byte[] buffer = new byte[bufferSize];
-        SourceDataLine dataLine = null;
+        SourceDataLine dataLine;
         DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
 
         try {

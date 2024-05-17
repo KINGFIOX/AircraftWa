@@ -1,20 +1,22 @@
 package edu.hitsz.observe;
 
 import edu.hitsz.application.RANDOM;
+import edu.hitsz.config.CONFIG;
 import edu.hitsz.prop.BaseProp;
 import edu.hitsz.propfactory.*;
 
 public class PropGenerator {
 
-    private int maxScore;
+    private final int maxScore;
+    private final int maxBlood;
+    private final int maxBomb;
+
     private int dura_bullet;
     private int dura_bullet_plus;
     private int probability_blood;
     private int probability_bomb;
     private int probability_bullet;
     private int probability_bullet_plus;
-    private int maxBlood;
-    private int maxBomb;
 
     /**
      * maxScore
@@ -31,8 +33,7 @@ public class PropGenerator {
             int dura_bullet,
             int probability_bullet,
             int dura_bullet_plus,
-            int probability_bullet_plus
-    ) {
+            int probability_bullet_plus) {
         this.maxScore = maxScore;
         this.maxBlood = maxBlood;
         this.maxBomb = maxBomb;
@@ -54,11 +55,10 @@ public class PropGenerator {
 
     public BaseProp generateProp(int locationX, int locationY) {
         // 随机选择敌机类型
-        EPropType type = EPropType.values()[RANDOM.getRandom(EPropType.values().length)];
 
         // 敌机的初始位置和属性，这里仅为示例，实际可能需要更合理的生成逻辑
-        int speedX = RANDOM.getRandom(5, 14);
-        int speedY = RANDOM.getRandom(5, 14);
+        int speedX = RANDOM.getRandom(CONFIG.Game.speedX);
+        int speedY = RANDOM.getRandom(CONFIG.Game.speedY);
 
         // 概率问题
         if (RANDOM.getRandom(100) < 50) {
@@ -86,7 +86,6 @@ public class PropGenerator {
         if (RANDOM.getRandom(100) < probability_bomb) {
             return bombFactory.createProp(locationX, locationY, speedX, speedY, score, -1, bomb);
         }
-
 
         // 实在倒霉
         return null;

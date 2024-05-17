@@ -11,7 +11,7 @@ import edu.hitsz.config.CONFIG;
  */
 public abstract class BaseBullet extends AbstractFlyingObject {
 
-    private int power = 10;
+    private int power;
 
     public BaseBullet(int locationX, int locationY, int speedX, int speedY, int power) {
         super(locationX, locationY, speedX, speedY);

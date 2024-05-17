@@ -14,8 +14,14 @@ public class RANDOM {
         return random.nextInt(len) + min;
     }
 
+    // 0 ~ max-1
     public static int getRandom(int max) {
         return random.nextInt(max);
+    }
+
+    public static int getRandom(int[] range) {
+        int len = range[1] - range[0] + 1;
+        return random.nextInt(len) + range[0];
     }
 
 }

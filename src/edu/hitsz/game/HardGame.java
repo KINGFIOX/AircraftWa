@@ -53,9 +53,12 @@ public class HardGame extends AbstractGame {
     @Override
     protected void initEnemyGen() {
         int mob_hp = 30;
+        int maxScore_mob = 10;
         int elite_hp = 100;
+        int maxScore_elite = 30;
         int elite_plus_hp = 100;
-        this.enemyGenerator = new EnemyAircraftGenerator(mob_hp, elite_hp, elite_plus_hp);
+        int maxScore_elite_plus = 50;
+        this.enemyGenerator = new EnemyAircraftGenerator(mob_hp, maxScore_mob, elite_hp, maxScore_elite, elite_plus_hp, maxScore_elite_plus);
     }
 
     @Override

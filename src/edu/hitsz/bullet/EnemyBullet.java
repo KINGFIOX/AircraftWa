@@ -1,6 +1,5 @@
 package edu.hitsz.bullet;
 
-import edu.hitsz.observe.ISubscriber;
 import edu.hitsz.prop.bomb.IBombScriber;
 
 /**

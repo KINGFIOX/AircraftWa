@@ -47,11 +47,10 @@ public abstract class AbstractGame extends JPanel {
     private final ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1,
             new BasicThreadFactory.Builder().namingPattern("game-action-%d").daemon(true).build());
 
-
     /**
      * 时间间隔(ms)，控制刷新频率
      */
-    private int timeInterval = CONFIG.Game.TIME_INTERVAL;
+    private final int timeInterval = CONFIG.Game.TIME_INTERVAL;
 
     private final List<BaseBullet> heroBullets = new LinkedList<>();
     private final List<EnemyAircraft> enemyAircrafts = new LinkedList<>();
@@ -59,7 +58,7 @@ public abstract class AbstractGame extends JPanel {
     private final List<BaseProp> props = new LinkedList<>();
 
     /**
-     * 屏幕中出现的敌机最大数量
+     * TODO 这个可能随着时间的推移而改变
      */
     private int enemyMaxNumber = CONFIG.Game.ENEMY_MAX_NUMBER;
 
@@ -77,7 +76,7 @@ public abstract class AbstractGame extends JPanel {
      * 周期（ms)
      * 指示子弹的发射、敌机的产生频率
      */
-    private int cycleDuration = CONFIG.Game.CYCLE_DURATION;
+    private final int cycleDuration = CONFIG.Game.CYCLE_DURATION;
     private int cycleTime = 0;
 
     /**
@@ -85,13 +84,12 @@ public abstract class AbstractGame extends JPanel {
      */
     private boolean gameOverFlag = false;
 
-
     /* ---------- ---------- 模板 begin ---------- ---------- */
 
     /**
      * 分数的观察者, 去掉单例模式，一定要在子类中添加 scoreObserver.addSubscriber(enemyGenerator);
      */
-    private ScoreNotifier scoreObserver = new ScoreNotifier();
+    private final ScoreNotifier scoreObserver = new ScoreNotifier();
 
     protected EnemyAircraftGenerator enemyGenerator;
 
@@ -106,7 +104,6 @@ public abstract class AbstractGame extends JPanel {
     protected HeroAircraft heroAircraft;
 
     abstract protected void initHero();
-
 
     // TODO 构造函数是 模板函数
     public AbstractGame() {
@@ -134,8 +131,8 @@ public abstract class AbstractGame extends JPanel {
     /**
      * 这里是 boss
      */
-    private static IEnemyAircraftFactory bossFactory = new BossEnemyFactory();
-    private static int lastBossScore = 0;
+    private final static IEnemyAircraftFactory bossFactory = new BossEnemyFactory();
+    private int lastBossScore = 0;
 
     /**
      * 游戏启动入口，执行游戏逻辑
@@ -292,8 +289,8 @@ public abstract class AbstractGame extends JPanel {
                 int locationX = (int) (Math.random()
                         * (CONFIG.Windows.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())); // 假设游戏宽度为300
                 int locationY = (int) (Math.random() * CONFIG.Windows.WINDOW_HEIGHT * 0.05);
-                int speedX = RANDOM.getRandom(-2, 2);
-                int speedY = RANDOM.getRandom(5, 14); // 假设速度在5到14之间
+                int speedX = RANDOM.getRandom(CONFIG.Game.speedX);
+                int speedY = RANDOM.getRandom(CONFIG.Game.speedY); // 假设速度在5到14之间
                 enemyAircrafts
                         .add(bossFactory.createEnemyAircraft(locationX, locationY, speedX >> 2, speedY >> 2, 500, 100));
                 // 播放音频
@@ -455,7 +452,7 @@ public abstract class AbstractGame extends JPanel {
      */
     // List<? extends AbstractFlyingObject> 是一种约束
     private void paintImageWithPositionRevised(Graphics g, List<? extends AbstractFlyingObject> objects) {
-        if (objects.size() == 0) {
+        if (objects.isEmpty()) {
             return;
         }
 

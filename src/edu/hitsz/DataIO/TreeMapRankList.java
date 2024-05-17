@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 public class TreeMapRankList implements IRankList {
-    private TreeMap<Integer, PriorityQueue<Entry>> map;
+    private final TreeMap<Integer, PriorityQueue<Entry>> map;
 
     public TreeMapRankList() {
         // 初始化TreeMap，分数高的排在前面，如果分数相同，则按时间升序排列
