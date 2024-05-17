@@ -20,10 +20,6 @@ public class CONFIG {
          */
         public static final int CYCLE_DURATION = 600;
 
-        /**
-         * 每多少分生成一次 boss
-         */
-        public static final int BOSS_EVERY_SCORE = 1000;
 
         /**
          * 这种速度啥的
@@ -38,12 +34,12 @@ public class CONFIG {
         /**
          *
          */
-        public static int[] speedX = { -2, 2 };
+        public static int[] speedX = new int[]{-2, 2};
 
         /**
-         *
+         * FIXME 这里可能会有问题
          */
-        public static int[] speedY = { 5, 14 };
+        public static int[] speedY = new int[]{5, 14};
 
     }
 
@@ -85,6 +81,12 @@ public class CONFIG {
          *
          */
         public static final int ENEMY_BULLET_POWER = 10; // FIXME CONFIG
+
+        /**
+         * 每多少分生成一次 boss
+         */
+        public static final int BOSS_EVERY_SCORE = 1000;
+
 
     }
 

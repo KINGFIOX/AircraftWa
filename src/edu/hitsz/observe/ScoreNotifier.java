@@ -28,7 +28,7 @@ public class ScoreNotifier {
      */
     public void update(int updataScore) {
         this.score = updataScore;
-        if (score - lastScore >= CONFIG.Game.BOSS_EVERY_SCORE) {
+        if (score - lastScore >= CONFIG.Enemy.BOSS_EVERY_SCORE) {
             // 保证战场上只有一个 boss
             lastScore = score;
 //            emitNotify();

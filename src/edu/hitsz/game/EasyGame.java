@@ -49,6 +49,11 @@ public class EasyGame extends AbstractGame {
     }
 
     @Override
+    protected void initConfig() {
+
+    }
+
+    @Override
     protected void initEnemyGen() {
         int mob_hp = 30;
         int maxScore_mob = 10;

@@ -9,17 +9,17 @@ public class RANDOM {
     /**
      * 左闭右闭的区间
      */
-    public static int getRandom(int min, int max) {
+    public final static int getRandom(int min, int max) {
         int len = max - min + 1;
         return random.nextInt(len) + min;
     }
 
     // 0 ~ max-1
-    public static int getRandom(int max) {
+    public final static int getRandom(int max) {
         return random.nextInt(max);
     }
 
-    public static int getRandom(int[] range) {
+    public final static int getRandom(int[] range) {
         int len = range[1] - range[0] + 1;
         return random.nextInt(len) + range[0];
     }

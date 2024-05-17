@@ -105,11 +105,14 @@ public abstract class AbstractGame extends JPanel {
 
     abstract protected void initHero();
 
+    abstract protected void initConfig();
+
     // TODO 构造函数是 模板函数
     public AbstractGame() {
 
         // 1. 初始化 英雄飞机
         initHero();
+        initConfig();
 
         // 2. 初始化背景
         initBackground();
@@ -282,7 +285,7 @@ public abstract class AbstractGame extends JPanel {
      * 这里是同步的 刷新 boss
      */
     private void genBoss() {
-        if (score - lastBossScore >= CONFIG.Game.BOSS_EVERY_SCORE) {
+        if (score - lastBossScore >= CONFIG.Enemy.BOSS_EVERY_SCORE) {
             // 保证战场上只有一个 boss
             boolean existed = enemyAircrafts.stream().anyMatch(x -> (x instanceof BossAircraft));
             if (!existed) {

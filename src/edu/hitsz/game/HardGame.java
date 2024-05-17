@@ -49,6 +49,11 @@ public class HardGame extends AbstractGame {
 
     }
 
+    @Override
+    protected void initConfig() {
+
+    }
+
 
     @Override
     protected void initEnemyGen() {

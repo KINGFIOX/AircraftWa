@@ -60,6 +60,11 @@ public class NormalGame extends AbstractGame {
 
     }
 
+    @Override
+    protected void initConfig() {
+
+    }
+
 
     @Override
     protected void initPropGen() {
