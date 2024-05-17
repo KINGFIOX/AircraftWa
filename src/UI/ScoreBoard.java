@@ -1,6 +1,6 @@
 package UI;
 
-import edu.hitsz.application.CONFIG;
+import edu.hitsz.config.CONFIG;
 import edu.hitsz.DataIO.Entry;
 import edu.hitsz.DataIO.IRankList;
 import edu.hitsz.DataIO.TreeMapRankList;

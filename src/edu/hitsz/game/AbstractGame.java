@@ -1,7 +1,7 @@
 package edu.hitsz.game;
 
 import UI.Main;
-import edu.hitsz.application.CONFIG;
+import edu.hitsz.config.CONFIG;
 import edu.hitsz.aircraft.*;
 import edu.hitsz.DataIO.Entry;
 import edu.hitsz.application.HeroController;
@@ -13,10 +13,12 @@ import edu.hitsz.basic.AbstractFlyingObject;
 import edu.hitsz.aircraft.enemy.EnemyAircraft;
 import edu.hitsz.enemyfactory.BossEnemyFactory;
 import edu.hitsz.enemyfactory.IEnemyAircraftFactory;
+import edu.hitsz.observe.PropGenerator;
 import edu.hitsz.prop.BaseProp;
 import edu.hitsz.observe.EnemyAircraftGenerator;
 
 import edu.hitsz.observe.ScoreNotifier;
+import edu.hitsz.prop.bomb.BombProp;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
@@ -41,7 +43,9 @@ public abstract class AbstractGame extends JPanel {
     /**
      * Scheduled 线程池，用于任务调度
      */
-    private final ScheduledExecutorService executorService;
+    private final ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1,
+            new BasicThreadFactory.Builder().namingPattern("game-action-%d").daemon(true).build());
+    ;
 
     /**
      * 时间间隔(ms)，控制刷新频率
@@ -49,8 +53,8 @@ public abstract class AbstractGame extends JPanel {
     private int timeInterval = CONFIG.Game.TIME_INTERVAL;
 
     private final HeroAircraft heroAircraft;
-    private final List<EnemyAircraft> enemyAircrafts = new LinkedList<>();
     private final List<BaseBullet> heroBullets = new LinkedList<>();
+    private final List<EnemyAircraft> enemyAircrafts = new LinkedList<>();
     private final List<BaseBullet> enemyBullets = new LinkedList<>();
     private final List<BaseProp> props = new LinkedList<>();
 
@@ -81,34 +85,46 @@ public abstract class AbstractGame extends JPanel {
      */
     private boolean gameOverFlag = false;
 
-    private ScoreNotifier scoreObserver;
+
+    /* ---------- ---------- 模板 ---------- ---------- */
 
     /**
-     * 构造函数
+     * 分数的观察者, 去掉单例模式，一定要在子类中添加 scoreObserver.addSubscriber(enemyGenerator);
      */
+    private ScoreNotifier scoreObserver = new ScoreNotifier();
+
+    protected EnemyAircraftGenerator enemyGenerator;
+    abstract protected void initEnemyGen();
+
+    protected PropGenerator propGenerator;
+    abstract protected void initPropGen();
+
+    abstract protected void initBackground();
+
+
+
+    // TODO 构造函数是 模板函数
     public AbstractGame() {
-        // 英雄飞机只有一个
-        heroAircraft = HeroAircraft.getInstace();
 
-        // 单例模式
-        scoreObserver = ScoreNotifier.getInstace();
+        // 1. 初始化 英雄飞机
+        heroAircraft = HeroAircraft.getInstance();
 
-        scoreObserver.addSubscriber(EnemyAircraftGenerator.getInstace());
+        // 2. 初始化背景
+        initBackground();
 
-        /**
-         * Scheduled 线程池，用于定时任务调度
-         * 关于alibaba code guide：可命名的 ThreadFactory 一般需要第三方包
-         * apache 第三方库： org.apache.commons.lang3.concurrent.BasicThreadFactory
-         */
-        // hcorePoolSize=1 线程数
-        // 线程工厂
-        this.executorService = new ScheduledThreadPoolExecutor(1,
-                new BasicThreadFactory.Builder().namingPattern("game-action-%d").daemon(true).build());
+        // 3. 初始化一系列 Generator
+        initEnemyGen();
+        initPropGen();
 
-        // 启动英雄机 鼠标 + 键盘 监听
+        // 4. 将 enemyGenerator 放到 notifier 中
+        scoreObserver.addSubscriber(enemyGenerator);
+
+        // 5. 启动英雄飞机的监听
         new HeroController(this, heroAircraft);
 
     }
+
+    /* ---------- ---------- 模板 ---------- ---------- */
 
     /**
      * 这里是 boss
@@ -116,7 +132,6 @@ public abstract class AbstractGame extends JPanel {
     private static IEnemyAircraftFactory bossFactory = new BossEnemyFactory();
     private static Random random = new Random();
     private static int lastBossScore = 0;
-
 
     /**
      * 游戏启动入口，执行游戏逻辑
@@ -141,7 +156,7 @@ public abstract class AbstractGame extends JPanel {
                     genBoss();
 
                     // EnemyAircraftGenerator::generateEnemy();
-                    enemyAircrafts.add(EnemyAircraftGenerator.getInstace().generateEnemy());
+                    enemyAircrafts.add(enemyGenerator.generateEnemy());
                 }
 
                 scoreObserver.update(score);
@@ -184,30 +199,27 @@ public abstract class AbstractGame extends JPanel {
                     System.err.println("An error occurred while appending data to the file: " + e.getMessage());
                 }
 
-
                 // FIXME 游戏结束
                 this.executorService.shutdown();
                 gameOverFlag = true;
                 System.out.println("Game Over!");
 
                 // 关闭 bgm
-                if (WaveManager.getInstance().isPlaying("bgm_boss")) {
-                    WaveManager.getInstance().stopMusic("bgm_boss");
+                if (WaveManager.getM_instance().isPlaying("bgm_boss")) {
+                    WaveManager.getM_instance().stopMusic("bgm_boss");
                 }
-                if (WaveManager.getInstance().isPlaying("bgm")) {
-                    WaveManager.getInstance().stopMusic("bgm");
+                if (WaveManager.getM_instance().isPlaying("bgm")) {
+                    WaveManager.getM_instance().stopMusic("bgm");
                 }
 
-
-                WaveManager.getInstance().playMusic("game_over");
+                WaveManager.getM_instance().playMusic("game_over");
                 SwingUtilities.invokeLater(() -> {
-//                    Main.cardPanel.add();
+                    // Main.cardPanel.add();
                     // 切换到 SimpleTable 面板
                     SwingUtilities.invokeLater(() -> {
                         Main.cardLayout.show(Main.cardPanel, "scoreBoard menu");
                     });
                 });
-
 
             }
 
@@ -218,7 +230,6 @@ public abstract class AbstractGame extends JPanel {
          * 本次任务执行完成后，需要延迟设定的延迟时间，才会执行新的任务
          */
         this.executorService.scheduleWithFixedDelay(task, timeInterval, timeInterval, TimeUnit.MILLISECONDS);
-
 
     }
 
@@ -274,13 +285,15 @@ public abstract class AbstractGame extends JPanel {
             // 保证战场上只有一个 boss
             boolean existed = enemyAircrafts.stream().anyMatch(x -> (x instanceof BossAircraft));
             if (!existed) {
-                int locationX = (int) (Math.random() * (CONFIG.Windows.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())); // 假设游戏宽度为300
+                int locationX = (int) (Math.random()
+                        * (CONFIG.Windows.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())); // 假设游戏宽度为300
                 int locationY = (int) (Math.random() * CONFIG.Windows.WINDOW_HEIGHT * 0.05);
-                int speedX = random.nextInt(4) - 2;  // 假设速度在 (0, 4) - 2 之间
+                int speedX = random.nextInt(4) - 2; // 假设速度在 (0, 4) - 2 之间
                 int speedY = random.nextInt(10) + 5; // 假设速度在5到14之间
-                enemyAircrafts.add(bossFactory.createEnemyAircraft(locationX, locationY, speedX >> 2, speedY >> 2, 500, 100));
+                enemyAircrafts
+                        .add(bossFactory.createEnemyAircraft(locationX, locationY, speedX >> 2, speedY >> 2, 500, 100));
                 // 播放音频
-                WaveManager.getInstance().playMusic("bgm_boss");
+                WaveManager.getM_instance().playMusic("bgm_boss");
                 lastBossScore = score;
             }
         }
@@ -333,18 +346,18 @@ public abstract class AbstractGame extends JPanel {
                     enemyAircraft.decreaseHp(bullet.getPower());
                     bullet.vanish();
                     // 音乐
-                    WaveManager.getInstance().playMusic("bullet_hit");
+                    WaveManager.getM_instance().playMusic("bullet_hit");
 
                     if (enemyAircraft.notValid()) { // 敌人的飞机被击毁
                         score += enemyAircraft.getScore();
 
                         if (enemyAircraft instanceof BossAircraft) {
                             // 关闭音乐
-                            WaveManager.getInstance().stopMusic("bgm_boss");
+                            WaveManager.getM_instance().stopMusic("bgm_boss");
                         }
 
                         // 听说你喜欢奖励
-                        List<BaseProp> p = enemyAircraft.award();
+                        List<BaseProp> p = enemyAircraft.award(propGenerator);
                         props.addAll(p);
                     }
                 }
@@ -363,7 +376,11 @@ public abstract class AbstractGame extends JPanel {
             if (heroAircraft.crash(p)) {
                 // 敌机子弹撞击到英雄机
                 // 英雄机损失一定生命值
-                heroAircraft.effect(p);
+                if (p instanceof BombProp) {
+                    ((BombProp) p).emitNotify(enemyBullets, enemyAircrafts);
+                } else {
+                    heroAircraft.effect(p);
+                }
                 p.vanish();
             }
             score += p.getScore(); // 加分

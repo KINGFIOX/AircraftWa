@@ -12,7 +12,8 @@ public class WaveManager {
 
     private final ExecutorService threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
-    private static WaveManager instance;
+    // 饿汉模式
+    private static WaveManager m_instance = new WaveManager();
 
     private WaveManager() {
         addMusic("bgm", "src/videos/bgm.wav", true);
@@ -24,15 +25,8 @@ public class WaveManager {
         addMusic("get_supply", "src/videos/get_supply.wav", false);
     }
 
-    public static WaveManager getInstance() {
-        if (instance == null) {
-            synchronized (WaveManager.class) {
-                if (instance == null) {
-                    instance = new WaveManager();
-                }
-            }
-        }
-        return instance;
+    public static WaveManager getM_instance() {
+        return m_instance;
     }
 
     public void addMusic(String identifier, String filename, boolean loop) {

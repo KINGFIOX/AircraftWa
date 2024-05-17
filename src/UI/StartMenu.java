@@ -55,10 +55,10 @@ public class StartMenu {
                 // FIXME
                 if (BGMCheckBox.isSelected()) {
                     // 启用背景音乐
-                    WaveManager.getInstance().playMusic("bgm");
+                    WaveManager.getM_instance().playMusic("bgm");
                 } else {
                     // 停止背景音乐
-                    WaveManager.getInstance().stopMusic("bgm");
+                    WaveManager.getM_instance().stopMusic("bgm");
                 }
             }
         });

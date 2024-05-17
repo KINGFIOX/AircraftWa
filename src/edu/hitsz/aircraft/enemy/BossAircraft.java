@@ -1,6 +1,6 @@
 package edu.hitsz.aircraft.enemy;
 
-import edu.hitsz.application.CONFIG;
+import edu.hitsz.config.CONFIG;
 import edu.hitsz.application.AircraftWar;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.prop.BaseProp;
@@ -18,14 +18,14 @@ public class BossAircraft extends EnemyAircraft {
     }
 
     @Override
-    public List<BaseProp> award() {
+    public List<BaseProp> award(PropGenerator generator) {
 
         // FIXME 奖励的时候，关闭 boss 的音乐，不知道这样行不行，感觉不符合逻辑
 
         List<BaseProp> res = new LinkedList<>();
         BaseProp p;
         for (int i = 0; i < CONFIG.Enemy.BOSS_DROP_NUMBER; i++) {
-            p = PropGenerator.getInstace().generateProp(this.locationX, this.locationY);
+            p = generator.generateProp(this.locationX, this.locationY);
             if (p != null) {
                 res.add(p);
             }
@@ -73,5 +73,9 @@ public class BossAircraft extends EnemyAircraft {
                 CONFIG.Enemy.BOSS_SHOOT_NUMBER, direction, power, false);
     }
 
+    @Override
+    public void takeNotify() {
+        // boss 不受影响
+    }
 
 }

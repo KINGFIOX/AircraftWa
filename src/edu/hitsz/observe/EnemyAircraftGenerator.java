@@ -1,7 +1,6 @@
 package edu.hitsz.observe;
 
-import edu.hitsz.application.CONFIG;
-import edu.hitsz.aircraft.HeroAircraft;
+import edu.hitsz.config.CONFIG;
 import edu.hitsz.aircraft.enemy.EnemyAircraft;
 import edu.hitsz.application.AircraftWar;
 import edu.hitsz.application.ImageManager;
@@ -11,28 +10,16 @@ import java.util.Random;
 
 public class EnemyAircraftGenerator implements ISubscriber {
 
-    private EnemyAircraftGenerator() {
+    private int mob_hp;
+    private int elite_hp;
+    private int elite_plus_hp;
+
+    public EnemyAircraftGenerator(int mob_hp, int elite_hp, int elite_plus_hp) {
+        this.mob_hp = mob_hp;
+        this.elite_hp = elite_hp;
+        this.elite_plus_hp = elite_plus_hp;
     }
 
-    private static EnemyAircraftGenerator m_instance;
-
-    public static EnemyAircraftGenerator getInstace() {
-        // 第一次检查，避免不必要的同步
-        if (m_instance == null) {
-            // 同步块，对类对象加锁
-            synchronized (HeroAircraft.class) {
-                // 第二次检查，防止多线程问题
-                if (m_instance == null) {
-                    m_instance = new EnemyAircraftGenerator();
-                    System.out.println("m_instance created: " + m_instance);
-                }
-            }
-        }
-        return m_instance;
-    }
-
-
-    private static int mob_hp = CONFIG.Enemy.MOB_HP;
 
     @Override
     public void takeNotify() {
@@ -63,12 +50,9 @@ public class EnemyAircraftGenerator implements ISubscriber {
             //                return mobFactory.createEnemyAircraft(locationX, locationY, speedX, speedY, hp);
             case ELITE:
                 //                hp = 100; // 假设精英敌机有更高的生命值
-                return eliteFactory.createEnemyAircraft(locationX, locationY, speedX, 5, CONFIG.Enemy.ELITE_HP, 30);
+                return eliteFactory.createEnemyAircraft(locationX, locationY, speedX, 5, elite_hp, 30);
             case ELITEPLUS:
-                return elitePlusFactory.createEnemyAircraft(locationX, locationY, speedX, 5, CONFIG.Enemy.ELITE_PLUS_HP, 30);
-            // TODO 暂时不加入 BOSS
-            //            case BOSS:
-            //                return bossFactory.createEnemyAircraft(locationX, locationY, speedX >> 2, speedY >> 2, 500, 100);
+                return elitePlusFactory.createEnemyAircraft(locationX, locationY, speedX, 5, elite_plus_hp, 30);
             default:
                 // 暂时默认生成
                 return mobFactory.createEnemyAircraft(locationX, locationY, 0, 10, mob_hp, 10);

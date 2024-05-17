@@ -1,6 +1,6 @@
 package edu.hitsz.aircraft.enemy;
 
-import edu.hitsz.application.CONFIG;
+import edu.hitsz.config.CONFIG;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.prop.BaseProp;
 import edu.hitsz.observe.PropGenerator;
@@ -36,13 +36,18 @@ public class EliteAircraft extends EnemyAircraft {
     }
 
     @Override
-    public List<BaseProp> award() {
+    public List<BaseProp> award(PropGenerator generator) {
         List<BaseProp> res = new LinkedList<>();
-        BaseProp p = PropGenerator.getInstace().generateProp(this.locationX, this.locationY);
+        BaseProp p = generator.generateProp(this.locationX, this.locationY);
         if (p != null) {
             res.add(p);
         }
         return res;
     }
 
+    @Override
+    public void takeNotify() {
+        // 直接让飞机死亡
+        decreaseHp(this.maxHp);
+    }
 }

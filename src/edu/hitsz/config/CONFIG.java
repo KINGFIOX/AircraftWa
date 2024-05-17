@@ -1,4 +1,4 @@
-package edu.hitsz.application;
+package edu.hitsz.config;
 
 public class CONFIG {
 
@@ -104,21 +104,6 @@ public class CONFIG {
          */
         public static final int ENEMY_BULLET_POWER = 10; // FIXME CONFIG
 
-        /**
-         *
-         */
-        public static final int MOB_HP = 30;
-
-
-        /**
-         *
-         */
-        public static final int ELITE_HP = 100;
-
-        /**
-         *
-         */
-        public static final int ELITE_PLUS_HP = 100;
 
     }
 

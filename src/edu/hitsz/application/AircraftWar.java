@@ -1,5 +1,6 @@
 package edu.hitsz.application;
 
+import edu.hitsz.config.CONFIG;
 import edu.hitsz.game.AbstractGame;
 import edu.hitsz.game.EasyGame;
 

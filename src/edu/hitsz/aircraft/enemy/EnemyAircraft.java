@@ -1,10 +1,12 @@
 package edu.hitsz.aircraft.enemy;
 
-import edu.hitsz.application.CONFIG;
+import edu.hitsz.config.CONFIG;
 import edu.hitsz.aircraft.AbstractAircraft;
 import edu.hitsz.application.AircraftWar;
 import edu.hitsz.bullet.BaseBullet;
+import edu.hitsz.observe.PropGenerator;
 import edu.hitsz.prop.BaseProp;
+import edu.hitsz.prop.bomb.IBombScriber;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.List;
 /**
  * 抽象类
  */
-public abstract class EnemyAircraft extends AbstractAircraft {
+public abstract class EnemyAircraft extends AbstractAircraft implements IBombScriber {
 
     /* ---------- ---------- 子弹 ---------- ---------- */
 
@@ -71,6 +73,7 @@ public abstract class EnemyAircraft extends AbstractAircraft {
     /**
      * 听说你喜欢奖励
      */
-    abstract public List<BaseProp> award();
+    abstract public List<BaseProp> award(PropGenerator generator);
 
+    public abstract void takeNotify();
 }

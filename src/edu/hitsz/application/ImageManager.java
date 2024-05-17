@@ -8,7 +8,7 @@ import edu.hitsz.aircraft.enemy.MobAircraft;
 import edu.hitsz.bullet.EnemyBullet;
 import edu.hitsz.bullet.HeroBullet;
 import edu.hitsz.prop.BloodProp;
-import edu.hitsz.prop.BombProp;
+import edu.hitsz.prop.bomb.BombProp;
 import edu.hitsz.prop.bulletprop.BulletPlusProp;
 import edu.hitsz.prop.bulletprop.BulletProp;
 

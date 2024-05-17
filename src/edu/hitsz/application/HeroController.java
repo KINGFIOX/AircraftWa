@@ -69,6 +69,7 @@ public class HeroController {
 
         abstractGame.addKeyListener(keyAdapter);
         abstractGame.setFocusable(true); // 确保游戏窗口能够接收键盘事件
+        abstractGame.requestFocus();
     }
 
     // 移动HeroAircraft，并检查边界

@@ -20,7 +20,7 @@ class HeroEnemyTest {
     @BeforeAll
     static void setUp() {
         System.out.println("**-- Execute before all test method in this class --**");
-        heroAircraft = HeroAircraft.getInstace();
+        heroAircraft = HeroAircraft.getInstance();
         heroBullets = new ArrayList<>();
         props = new ArrayList<>();
     }
@@ -67,6 +67,6 @@ class HeroEnemyTest {
     }
 
     @Test
-    void getInstace() {
+    void getInstance() {
     }
 }

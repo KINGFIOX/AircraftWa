@@ -1,6 +1,6 @@
 package UI;
 
-import edu.hitsz.application.CONFIG;
+import edu.hitsz.config.CONFIG;
 
 import javax.swing.*;
 import java.awt.*;

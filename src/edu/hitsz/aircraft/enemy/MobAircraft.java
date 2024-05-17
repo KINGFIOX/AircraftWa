@@ -2,6 +2,7 @@ package edu.hitsz.aircraft.enemy;
 
 import edu.hitsz.application.AircraftWar;
 import edu.hitsz.bullet.BaseBullet;
+import edu.hitsz.observe.PropGenerator;
 import edu.hitsz.prop.BaseProp;
 
 import java.util.LinkedList;
@@ -34,8 +35,15 @@ public class MobAircraft extends EnemyAircraft {
     }
 
     @Override
-    public List<BaseProp> award() {
+    public List<BaseProp> award(PropGenerator generator) {
         return new LinkedList<>();
     }
+
+    @Override
+    public void takeNotify() {
+        // boss 不受影响
+        decreaseHp(this.maxHp);
+    }
+
 
 }

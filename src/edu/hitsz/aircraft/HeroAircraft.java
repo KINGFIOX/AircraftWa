@@ -1,6 +1,6 @@
 package edu.hitsz.aircraft;
 
-import edu.hitsz.application.CONFIG;
+import edu.hitsz.config.CONFIG;
 import edu.hitsz.application.AircraftWar;
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.bullet.BaseBullet;
@@ -94,7 +94,7 @@ public class HeroAircraft extends AbstractAircraft {
         this.shootStrategy = new StraightShootStrategy();
     }
 
-    public static HeroAircraft getInstace() {
+    public static HeroAircraft getInstance() {
         // 第一次检查，避免不必要的同步
         if (m_instance == null) {
             // 同步块，对类对象加锁
