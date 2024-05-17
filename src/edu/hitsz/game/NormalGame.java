@@ -1,6 +1,8 @@
 package edu.hitsz.game;
 
+import edu.hitsz.aircraft.HeroAircraft;
 import edu.hitsz.application.ImageManager;
+import edu.hitsz.config.CONFIG;
 import edu.hitsz.observe.EnemyAircraftGenerator;
 import edu.hitsz.observe.PropGenerator;
 
@@ -18,6 +20,15 @@ public class NormalGame extends AbstractGame {
         int elite_plus_hp = 100;
         this.enemyGenerator = new EnemyAircraftGenerator(mob_hp, elite_hp, elite_plus_hp);
     }
+
+    @Override
+    protected void initHero() {
+        this.heroAircraft = new HeroAircraft(
+                CONFIG.Windows.WINDOW_WIDTH / 2,
+                CONFIG.Windows.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(),
+                0, 0, CONFIG.Game.HERO_HP);;
+    }
+
 
     @Override
     protected void initPropGen() {

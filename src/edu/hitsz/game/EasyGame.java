@@ -1,6 +1,8 @@
 package edu.hitsz.game;
 
+import edu.hitsz.aircraft.HeroAircraft;
 import edu.hitsz.application.ImageManager;
+import edu.hitsz.config.CONFIG;
 import edu.hitsz.observe.EnemyAircraftGenerator;
 import edu.hitsz.observe.PropGenerator;
 
@@ -8,6 +10,14 @@ public class EasyGame extends AbstractGame {
     @Override
     protected void initBackground() {
         this.bg = ImageManager.BACKGROUND_IMAGE2;
+    }
+
+    @Override
+    protected void initHero() {
+         this.heroAircraft = new HeroAircraft(
+                CONFIG.Windows.WINDOW_WIDTH / 2,
+                CONFIG.Windows.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(),
+                0, 0, CONFIG.Game.HERO_HP);;
     }
 
     @Override

@@ -89,31 +89,31 @@ public class HeroAircraft extends AbstractAircraft {
      * @param speedY    英雄机射出的子弹的基准速度（英雄机无特定速度）
      * @param hp        初始生命值
      */
-    private HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
+    public HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
         this.shootStrategy = new StraightShootStrategy();
     }
 
-    public static HeroAircraft getInstance() {
-        // 第一次检查，避免不必要的同步
-        if (m_instance == null) {
-            // 同步块，对类对象加锁
-            synchronized (HeroAircraft.class) {
-                // 第二次检查，防止多线程问题
-                if (m_instance == null) {
-                    m_instance = new HeroAircraft(
-                            AircraftWar.WINDOW_WIDTH / 2,
-                            AircraftWar.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(),
-                            0, 0, CONFIG.Game.HERO_HP);
-                    ;
-                    System.out.println("m_instance created: " + m_instance);
-                }
-            }
-        }
-        return m_instance;
-    }
-
-    // 私有成员
-    private static HeroAircraft m_instance;
+//    public static HeroAircraft getInstance() {
+//        // 第一次检查，避免不必要的同步
+//        if (m_instance == null) {
+//            // 同步块，对类对象加锁
+//            synchronized (HeroAircraft.class) {
+//                // 第二次检查，防止多线程问题
+//                if (m_instance == null) {
+//                    m_instance = new HeroAircraft(
+//                            AircraftWar.WINDOW_WIDTH / 2,
+//                            AircraftWar.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(),
+//                            0, 0, CONFIG.Game.HERO_HP);
+//                    ;
+//                    System.out.println("m_instance created: " + m_instance);
+//                }
+//            }
+//        }
+//        return m_instance;
+//    }
+//
+//    // 私有成员
+//    private static HeroAircraft m_instance;
 
 }

@@ -52,7 +52,6 @@ public abstract class AbstractGame extends JPanel {
      */
     private int timeInterval = CONFIG.Game.TIME_INTERVAL;
 
-    private final HeroAircraft heroAircraft;
     private final List<BaseBullet> heroBullets = new LinkedList<>();
     private final List<EnemyAircraft> enemyAircrafts = new LinkedList<>();
     private final List<BaseBullet> enemyBullets = new LinkedList<>();
@@ -94,20 +93,24 @@ public abstract class AbstractGame extends JPanel {
     private ScoreNotifier scoreObserver = new ScoreNotifier();
 
     protected EnemyAircraftGenerator enemyGenerator;
+
     abstract protected void initEnemyGen();
 
     protected PropGenerator propGenerator;
+
     abstract protected void initPropGen();
 
     abstract protected void initBackground();
 
+    protected HeroAircraft heroAircraft;
+    abstract protected void initHero();
 
 
     // TODO 构造函数是 模板函数
     public AbstractGame() {
 
         // 1. 初始化 英雄飞机
-        heroAircraft = HeroAircraft.getInstance();
+        initHero();
 
         // 2. 初始化背景
         initBackground();
