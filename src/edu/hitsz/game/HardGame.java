@@ -3,6 +3,7 @@ package edu.hitsz.game;
 import edu.hitsz.aircraft.HeroAircraft;
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.config.CONFIG;
+import edu.hitsz.observe.BossNotifier;
 import edu.hitsz.observe.EnemyAircraftGenerator;
 import edu.hitsz.observe.PropGenerator;
 
@@ -86,12 +87,21 @@ public class HardGame extends AbstractGame {
     }
 
     @Override
+    protected void initBossNotifier() {
+        int hp = 600;
+        this.bossNotifier = new BossNotifier(hp);
+    }
+
+
+
+    @Override
     protected void initConfig() {
 
         /* 随着时间，难度增加 */
         CONFIG.Enemy.MOB_HP_UPGRADE = 10;
         CONFIG.Enemy.ELITE_HP_UPGRADE = 20;
         CONFIG.Enemy.ELITE_PLUS_HP_UPGRADE = 30;
+        CONFIG.Enemy.BOSS_HP_UPGRADE = 100;
 
         CONFIG.Enemy.BOSS_SHOOT_NUMBER = 20;
         CONFIG.Enemy.BOSS_EVERY_SCORE = 1000;

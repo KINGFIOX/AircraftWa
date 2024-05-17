@@ -90,8 +90,7 @@ public class CONFIG {
         public static int MOB_HP_UPGRADE = 10;
         public static int ELITE_HP_UPGRADE = 20;
         public static int ELITE_PLUS_HP_UPGRADE = 30;
-
-        public static int BOSS_PLUS_HP_UPGRADE = 30;
+        public static int BOSS_HP_UPGRADE = 50;
 
 
     }

@@ -3,6 +3,7 @@ package edu.hitsz.game;
 import edu.hitsz.aircraft.HeroAircraft;
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.config.CONFIG;
+import edu.hitsz.observe.BossNotifier;
 import edu.hitsz.observe.EnemyAircraftGenerator;
 import edu.hitsz.observe.PropGenerator;
 
@@ -91,7 +92,7 @@ public class EasyGame extends AbstractGame {
         CONFIG.Enemy.MOB_HP_UPGRADE = 0;
         CONFIG.Enemy.ELITE_HP_UPGRADE = 0;
         CONFIG.Enemy.ELITE_PLUS_HP_UPGRADE = 0;
-
+        CONFIG.Enemy.BOSS_HP_UPGRADE = 10;
 
         CONFIG.Enemy.BOSS_SHOOT_NUMBER = 10;
         CONFIG.Enemy.BOSS_EVERY_SCORE = 2000;
@@ -105,5 +106,11 @@ public class EasyGame extends AbstractGame {
         CONFIG.Game.speedY[0] = 5;
         CONFIG.Game.speedY[1] = 14;
 
+    }
+
+    @Override
+    protected void initBossNotifier() {
+        int hp = 200;
+        this.bossNotifier = new BossNotifier(hp);
     }
 }

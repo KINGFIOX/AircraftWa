@@ -108,7 +108,10 @@ public abstract class AbstractGame extends JPanel {
 
     abstract protected void initConfig();
 
-    private final BossNotifier bossNotifier = new BossNotifier();
+    protected BossNotifier bossNotifier;
+
+    abstract protected void initBossNotifier();
+
 
     // TODO 构造函数是 模板函数
     public AbstractGame() {
@@ -123,6 +126,7 @@ public abstract class AbstractGame extends JPanel {
         // 3. 初始化一系列 Generator
         initEnemyGen();
         initPropGen();
+        initBossNotifier();
 
         // 4. 将 enemyGenerator 放到 notifier 中
         scoreObserver.addSubscriber(enemyGenerator);

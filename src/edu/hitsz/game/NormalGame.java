@@ -3,6 +3,7 @@ package edu.hitsz.game;
 import edu.hitsz.aircraft.HeroAircraft;
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.config.CONFIG;
+import edu.hitsz.observe.BossNotifier;
 import edu.hitsz.observe.EnemyAircraftGenerator;
 import edu.hitsz.observe.PropGenerator;
 
@@ -57,8 +58,14 @@ public class NormalGame extends AbstractGame {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-
     }
+
+    @Override
+    protected void initBossNotifier() {
+        int hp = 400;
+        this.bossNotifier = new BossNotifier(hp);
+    }
+
 
     @Override
     protected void initPropGen() {
@@ -91,6 +98,7 @@ public class NormalGame extends AbstractGame {
         CONFIG.Enemy.MOB_HP_UPGRADE = 5;
         CONFIG.Enemy.ELITE_HP_UPGRADE = 10;
         CONFIG.Enemy.ELITE_PLUS_HP_UPGRADE = 15;
+        CONFIG.Enemy.BOSS_HP_UPGRADE = 50;
 
         CONFIG.Enemy.BOSS_SHOOT_NUMBER = 20;
         CONFIG.Enemy.BOSS_EVERY_SCORE = 2000;

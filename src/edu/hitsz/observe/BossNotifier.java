@@ -9,20 +9,21 @@ import edu.hitsz.config.CONFIG;
 import edu.hitsz.enemyfactory.BossEnemyFactory;
 import edu.hitsz.enemyfactory.IEnemyAircraftFactory;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-public class BossNotifier {
+public class BossNotifier implements ISubscriber {
 
     private int score = 0;
 
     private int lastBossScore = 0;
 
-    public BossNotifier() {
+    public BossNotifier(int hp) {
+        this.boss_hp = hp;
     }
 
     private final static IEnemyAircraftFactory bossFactory = new BossEnemyFactory();
+
+    private int boss_hp;
 
 
     /**
@@ -49,6 +50,11 @@ public class BossNotifier {
                 lastBossScore = score;
             }
         }
+    }
+
+    @Override
+    public void takeNotify() {
+        this.boss_hp += CONFIG.Enemy.BOSS_HP_UPGRADE;
     }
 }
 
