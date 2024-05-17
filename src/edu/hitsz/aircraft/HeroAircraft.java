@@ -22,17 +22,17 @@ public class HeroAircraft extends AbstractAircraft {
     /**
      * 子弹一次发射数量
      */
-    private int shootNum = CONFIG.Game.HERO_SHOOT_NUM; // FIXME CONFIG
+    private int shootNum;
 
     /**
      * 子弹伤害
      */
-    private int power = CONFIG.Game.HERO_BULLET_POWER;
+    private int power;
 
     /**
      * 子弹射击方向 (向上发射：1，向下发射：-1)
      */
-    private int direction = -1;
+    private final int direction = -1;
 
     @Override
     /**
@@ -93,27 +93,4 @@ public class HeroAircraft extends AbstractAircraft {
         super(locationX, locationY, speedX, speedY, hp);
         this.shootStrategy = new StraightShootStrategy();
     }
-
-//    public static HeroAircraft getInstance() {
-//        // 第一次检查，避免不必要的同步
-//        if (m_instance == null) {
-//            // 同步块，对类对象加锁
-//            synchronized (HeroAircraft.class) {
-//                // 第二次检查，防止多线程问题
-//                if (m_instance == null) {
-//                    m_instance = new HeroAircraft(
-//                            AircraftWar.WINDOW_WIDTH / 2,
-//                            AircraftWar.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(),
-//                            0, 0, CONFIG.Game.HERO_HP);
-//                    ;
-//                    System.out.println("m_instance created: " + m_instance);
-//                }
-//            }
-//        }
-//        return m_instance;
-//    }
-//
-//    // 私有成员
-//    private static HeroAircraft m_instance;
-
 }

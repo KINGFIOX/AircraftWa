@@ -1,6 +1,7 @@
 package edu.hitsz.game;
 
 import UI.Main;
+import edu.hitsz.application.RANDOM;
 import edu.hitsz.config.CONFIG;
 import edu.hitsz.aircraft.*;
 import edu.hitsz.DataIO.Entry;
@@ -45,7 +46,7 @@ public abstract class AbstractGame extends JPanel {
      */
     private final ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1,
             new BasicThreadFactory.Builder().namingPattern("game-action-%d").daemon(true).build());
-    ;
+
 
     /**
      * 时间间隔(ms)，控制刷新频率
@@ -85,7 +86,7 @@ public abstract class AbstractGame extends JPanel {
     private boolean gameOverFlag = false;
 
 
-    /* ---------- ---------- 模板 ---------- ---------- */
+    /* ---------- ---------- 模板 begin ---------- ---------- */
 
     /**
      * 分数的观察者, 去掉单例模式，一定要在子类中添加 scoreObserver.addSubscriber(enemyGenerator);
@@ -103,6 +104,7 @@ public abstract class AbstractGame extends JPanel {
     abstract protected void initBackground();
 
     protected HeroAircraft heroAircraft;
+
     abstract protected void initHero();
 
 
@@ -127,13 +129,12 @@ public abstract class AbstractGame extends JPanel {
 
     }
 
-    /* ---------- ---------- 模板 ---------- ---------- */
+    /* ---------- ---------- 模板 end ---------- ---------- */
 
     /**
      * 这里是 boss
      */
     private static IEnemyAircraftFactory bossFactory = new BossEnemyFactory();
-    private static Random random = new Random();
     private static int lastBossScore = 0;
 
     /**
@@ -208,14 +209,14 @@ public abstract class AbstractGame extends JPanel {
                 System.out.println("Game Over!");
 
                 // 关闭 bgm
-                if (WaveManager.getM_instance().isPlaying("bgm_boss")) {
-                    WaveManager.getM_instance().stopMusic("bgm_boss");
+                if (WaveManager.m_instance.isPlaying("bgm_boss")) {
+                    WaveManager.m_instance.stopMusic("bgm_boss");
                 }
-                if (WaveManager.getM_instance().isPlaying("bgm")) {
-                    WaveManager.getM_instance().stopMusic("bgm");
+                if (WaveManager.m_instance.isPlaying("bgm")) {
+                    WaveManager.m_instance.stopMusic("bgm");
                 }
 
-                WaveManager.getM_instance().playMusic("game_over");
+                WaveManager.m_instance.playMusic("game_over");
                 SwingUtilities.invokeLater(() -> {
                     // Main.cardPanel.add();
                     // 切换到 SimpleTable 面板
@@ -291,12 +292,12 @@ public abstract class AbstractGame extends JPanel {
                 int locationX = (int) (Math.random()
                         * (CONFIG.Windows.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())); // 假设游戏宽度为300
                 int locationY = (int) (Math.random() * CONFIG.Windows.WINDOW_HEIGHT * 0.05);
-                int speedX = random.nextInt(4) - 2; // 假设速度在 (0, 4) - 2 之间
-                int speedY = random.nextInt(10) + 5; // 假设速度在5到14之间
+                int speedX = RANDOM.getRandom(-2, 2);
+                int speedY = RANDOM.getRandom(5, 14); // 假设速度在5到14之间
                 enemyAircrafts
                         .add(bossFactory.createEnemyAircraft(locationX, locationY, speedX >> 2, speedY >> 2, 500, 100));
                 // 播放音频
-                WaveManager.getM_instance().playMusic("bgm_boss");
+                WaveManager.m_instance.playMusic("bgm_boss");
                 lastBossScore = score;
             }
         }
@@ -349,14 +350,14 @@ public abstract class AbstractGame extends JPanel {
                     enemyAircraft.decreaseHp(bullet.getPower());
                     bullet.vanish();
                     // 音乐
-                    WaveManager.getM_instance().playMusic("bullet_hit");
+                    WaveManager.m_instance.playMusic("bullet_hit");
 
                     if (enemyAircraft.notValid()) { // 敌人的飞机被击毁
                         score += enemyAircraft.getScore();
 
                         if (enemyAircraft instanceof BossAircraft) {
                             // 关闭音乐
-                            WaveManager.getM_instance().stopMusic("bgm_boss");
+                            WaveManager.m_instance.stopMusic("bgm_boss");
                         }
 
                         // 听说你喜欢奖励

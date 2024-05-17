@@ -30,22 +30,14 @@ public class CONFIG {
          */
         public static final int HERO_HP = 1000;
 
-
         /**
-         * hero 的子弹的威力
-         */
-        public static final int HERO_BULLET_POWER = 30;
-
-        /**
-         *
-         */
-        public static final int HERO_SHOOT_NUM = 4;
-
-        /**
-         *
+         * 这种速度啥的
          */
         public static final int HERO_BULLET_SPEED = 10;
 
+        /**
+         *
+         */
         public static final String DATA_PATH = "data/ScoreBoard.csv";
 
     }
@@ -60,20 +52,6 @@ public class CONFIG {
          *
          */
         public static final int WINDOW_HEIGHT = 768;
-    }
-
-    public class Prop {
-
-        /**
-         *
-         */
-        public static final int PROP_SCORE = 10;
-
-        /**
-         *
-         */
-        public static final int PROP_DURATION = 5;
-
     }
 
     public class Enemy {

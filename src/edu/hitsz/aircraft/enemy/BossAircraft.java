@@ -48,20 +48,6 @@ public class BossAircraft extends EnemyAircraft {
     }
 
 
-    // 重写 boss 的走位
-//    @Override
-//    public void forward() {
-//        locationX += this.random.nextInt(2 * speedX) - speedX;
-//        locationX += this.random.nextInt(speedY);
-//        // 这个就有点像是: 子弹撞到边界以后会反弹
-//        // 不过我就寻思着: 应该没有 enemy 会横向走的吧
-//        if (locationX <= 0 || locationX >= Main.WINDOW_WIDTH) {
-//            // 横向超出边界后反向
-//            speedX = -speedX;
-//        }
-//    }
-
-
     /**
      * @return
      * @brief boss 重写 boss 弹道

@@ -1,10 +1,13 @@
 package edu.hitsz.game;
 
+import com.sun.jdi.ShortType;
 import edu.hitsz.aircraft.HeroAircraft;
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.config.CONFIG;
 import edu.hitsz.observe.EnemyAircraftGenerator;
 import edu.hitsz.observe.PropGenerator;
+
+import java.lang.reflect.Field;
 
 public class EasyGame extends AbstractGame {
     @Override
@@ -14,10 +17,36 @@ public class EasyGame extends AbstractGame {
 
     @Override
     protected void initHero() {
-         this.heroAircraft = new HeroAircraft(
+        int hp = 1000;
+        int shootNum = 10;
+        int power = 50;
+
+        this.heroAircraft = new HeroAircraft(
                 CONFIG.Windows.WINDOW_WIDTH / 2,
                 CONFIG.Windows.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(),
-                0, 0, CONFIG.Game.HERO_HP);;
+                0, 0, hp);
+
+        // java 没有 友元，太难过了
+        try {
+            Field shootNumField = HeroAircraft.class.getDeclaredField("shootNum");
+            shootNumField.setAccessible(true);
+            shootNumField.set(this.heroAircraft, shootNum);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Field powerField = HeroAircraft.class.getDeclaredField("power");
+            powerField.setAccessible(true);
+            powerField.set(this.heroAircraft, power);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

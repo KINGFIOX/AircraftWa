@@ -1,9 +1,8 @@
 package edu.hitsz.observe;
 
+import edu.hitsz.application.RANDOM;
 import edu.hitsz.prop.BaseProp;
 import edu.hitsz.propfactory.*;
-
-import java.util.Random;
 
 public class PropGenerator {
 
@@ -52,40 +51,42 @@ public class PropGenerator {
     private static final IPropFactory bulletPlusFactory = new BulletPlusPropFactory();
 
     // 用来获取整数的
-    private static final Random random = new Random();
 
     public BaseProp generateProp(int locationX, int locationY) {
         // 随机选择敌机类型
-        EPropType type = EPropType.values()[random.nextInt(EPropType.values().length)];
+        EPropType type = EPropType.values()[RANDOM.getRandom(EPropType.values().length)];
 
         // 敌机的初始位置和属性，这里仅为示例，实际可能需要更合理的生成逻辑
-        int speedX = random.nextInt(10) + 5;
-        int speedY = random.nextInt(10) + 5; // 假设速度在5到14之间
+        int speedX = RANDOM.getRandom(5, 14);
+        int speedY = RANDOM.getRandom(5, 14);
 
         // 概率问题
-        if (random.nextInt(100) < 50) {
+        if (RANDOM.getRandom(100) < 50) {
             return null;
         }
 
-        int score = random.nextInt(maxScore);
-        int blood = random.nextInt(maxBlood);
-        int bomb = random.nextInt(maxBomb);
+        int score = RANDOM.getRandom(maxScore);
+        int blood = RANDOM.getRandom(maxBlood);
+        int bomb = RANDOM.getRandom(maxBomb);
 
-        if (random.nextInt(100) < probability_bomb) {
-            return bombFactory.createProp(locationX, locationY, speedX, speedY, score, -1, bomb);
+        // 这里其实就是一个 优先级的 道具生成了
+
+        if (RANDOM.getRandom(100) < probability_blood) {
+            return bloodFactory.createProp(locationX, locationY, speedX, speedY, score, -1, blood);
         }
 
-        if (random.nextInt(100) < probability_bullet) {
+        if (RANDOM.getRandom(100) < probability_bullet) {
             return bulletFactory.createProp(locationX, locationY, speedX, speedY, score, dura_bullet, -1);
         }
 
-        if (random.nextInt(100) < probability_bullet_plus) {
+        if (RANDOM.getRandom(100) < probability_bullet_plus) {
             return bulletPlusFactory.createProp(locationX, locationY, speedX, speedY, score, dura_bullet_plus, -1);
         }
 
-        if (random.nextInt(100) < probability_blood) {
-            return bloodFactory.createProp(locationX, locationY, speedX, speedY, score, -1, blood);
+        if (RANDOM.getRandom(100) < probability_bomb) {
+            return bombFactory.createProp(locationX, locationY, speedX, speedY, score, -1, bomb);
         }
+
 
         // 实在倒霉
         return null;

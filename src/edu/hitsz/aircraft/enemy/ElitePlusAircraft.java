@@ -51,7 +51,7 @@ public class ElitePlusAircraft extends EnemyAircraft {
 
     @Override
     public void takeNotify() {
-        // 直接让飞机死亡
+
         decreaseHp(this.maxHp / 3);
     }
 

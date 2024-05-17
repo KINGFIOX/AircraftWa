@@ -19,7 +19,7 @@ public class BombProp extends BaseProp  {
     @Override
     public void effect(HeroAircraft h) {
         // 音乐
-        WaveManager.getM_instance().playMusic("bomb_explosion");
+        WaveManager.m_instance.playMusic("bomb_explosion");
 
         System.out.println("BombSupply active!");
     }

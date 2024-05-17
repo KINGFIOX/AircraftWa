@@ -15,7 +15,7 @@ public class BulletProp extends BaseBulletProp {
     @Override
     public void effect(HeroAircraft h) {
         // 音乐
-        WaveManager.getM_instance().playMusic("get_supply");
+        WaveManager.m_instance.playMusic("get_supply");
 
         IShootStrategy origin = new StraightShootStrategy();
         r = () -> {
