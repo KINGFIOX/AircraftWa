@@ -20,31 +20,24 @@ public class StartMenu {
 
     public StartMenu() {
 
-//        easyButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                Main.cardPanel.add(new SimpleCalculator().getMainPanel());
-//                Main.cardLayout.last(Main.cardPanel);
-//            }
-//        });
         easyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AbstractGame game = new EasyGame();  // 创建带有难度参数的新游戏
+                AbstractGame game = new EasyGame(); // 创建带有难度参数的新游戏
                 startNewGame(game);
             }
         });
         normalButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AbstractGame game = new NormalGame();  // 创建带有难度参数的新游戏
+                AbstractGame game = new NormalGame(); // 创建带有难度参数的新游戏
                 startNewGame(game);
             }
         });
         hardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AbstractGame game = new HardGame();  // 创建带有难度参数的新游戏
+                AbstractGame game = new HardGame(); // 创建带有难度参数的新游戏
                 startNewGame(game);
             }
         });

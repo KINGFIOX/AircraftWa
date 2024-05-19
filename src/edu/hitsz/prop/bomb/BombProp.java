@@ -26,6 +26,7 @@ public class BombProp extends BaseProp  {
 
 
     public void emitNotify(List<BaseBullet> enemyBullets, List<EnemyAircraft> enemyAircrafts) {
+        WaveManager.m_instance.playMusic("bomb_explosion");
         for (BaseBullet bullet : enemyBullets) {
             if (bullet instanceof EnemyBullet) {
                 ((EnemyBullet) bullet).takeNotify();
